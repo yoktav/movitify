@@ -24,5 +24,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import './Poster.scss';
+@import './Poster';
 </style>

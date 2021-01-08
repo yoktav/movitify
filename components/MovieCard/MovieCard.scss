@@ -1,4 +1,4 @@
-@import '../../assets/styles/abstracts/index.scss';
+@import '../../assets/styles/abstracts/index';
 
 .c-movie-card {
   position: relative;
@@ -51,8 +51,8 @@
     transition: background-color $g-transition-duration $g-transition-timing-function;
 
     &:hover {
-      color: $color-white;
       background-color: rgba($color-white, 0.3);
+      color: $color-white;
     }
   }
 }

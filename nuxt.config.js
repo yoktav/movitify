@@ -1,19 +1,18 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: "movitify",
+    title: 'movitify',
     meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" },
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com" },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
       {
-        rel: "stylesheet",
-        href:
-          "https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap",
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap',
       },
     ],
   },
@@ -21,11 +20,11 @@ export default {
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
     // SCSS file in the project
-    "~/assets/styles/main.scss",
+    '~/assets/styles/main.scss',
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ["~/plugins/services/api/movie-database.js"],
+  plugins: ['~/plugins/services/api/movie-database.js'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -36,7 +35,7 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/axios
-    "@nuxtjs/axios",
+    '@nuxtjs/axios',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
