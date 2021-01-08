@@ -20,5 +20,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import './c-header.scss';
+@import './Header.scss';
 </style>

@@ -46,5 +46,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import './c-movie-card.scss';
+@import './MovieCard.scss';
 </style>
