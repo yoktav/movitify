@@ -7,7 +7,11 @@
 
       <div class="row">
         <div class="col col--md-4">
-          <Poster :posterSrc="movie.Poster" :posterAlt="movie.Plot" :modifierClass="PosterModifierClass" />
+          <Poster
+            :poster-src="movie.Poster"
+            :poster-alt="movie.Plot"
+            :modifier-class="posterModifierClass"
+          />
         </div>
 
         <div class="col col--md-8">
@@ -19,36 +23,36 @@
             {{ movie.Plot }}
           </p>
 
-            <div class="c-font-weight-700">IMDB Rating: {{ movie.imdbRating }}</div>
-
+          <div class="c-font-weight-700">IMDB Rating: {{ movie.imdbRating }}</div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   props: {
-    PosterModifierClass: {
-      type: String
+    posterModifierClass: {
+      type: String,
+      default: null,
     },
     posterSrc: {
-      type: String
+      type: String,
+      default: null,
     },
     posterAlt: {
       type: String,
-      default: 'Poster Image'
+      default: 'Poster Image',
     },
     title: {
       type: String,
+      default: 'Movie',
     },
     description: {
       type: String,
-    }
+      default: 'Movie Plot',
+    },
   },
   data() {
     return {
@@ -56,23 +60,22 @@ export default {
       movie: [],
     };
   },
-  async created() {
-    this.searchByID(this.$route.params.id);
-  },
   head() {
     return {
       title: this.movie.Title,
       meta: [
         {
-          hid: "description",
-          name: "description",
+          hid: 'description',
+          name: 'description',
           content: this.movie.Plot,
-        }
-      ]
+        },
+      ],
     };
-  }
+  },
+  async created() {
+    this.searchByID(this.$route.params.id);
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

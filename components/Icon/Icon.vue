@@ -1,5 +1,12 @@
 <template>
-  <svg class="c-icon" :class="modifierClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :aria-labelledby="iconName" role="presentation">
+  <svg
+    class="c-icon"
+    :class="modifierClass"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    :aria-labelledby="iconName"
+    role="presentation"
+  >
     <title>{{ iconName }} icon</title>
     <slot />
   </svg>
@@ -9,19 +16,21 @@
 export default {
   props: {
     modifierClass: {
-      type: String
+      type: String,
+      default: null,
     },
     iconName: {
       type: String,
+      default: null,
     },
     iconColor: {
       type: String,
-      default: 'currentColor'
-    }
-  }
-}
+      default: 'currentColor',
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-  @import './c-icon.scss';
+@import './c-icon.scss';
 </style>
