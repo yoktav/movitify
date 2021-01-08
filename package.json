@@ -7,7 +7,11 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "lint": "yarn lint:js && yarn lint:css",
+    "lint:css": "stylelint --syntax scss */**/*.scss",
     "lint:js": "eslint \"*/**/*.{vue,js}\"",
+    "format": "yarn format:js && yarn format:css",
+    "format:css": "stylelint --fix --syntax scss */**/*.scss",
     "format:js": "prettier --write \"*/**/**/**/*.{vue,js}\""
   },
   "engines": {
@@ -19,6 +23,7 @@
     "nuxt": "^2.14.6"
   },
   "devDependencies": {
+    "@atolye15/stylelint-config": "^1.3.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
@@ -27,6 +32,9 @@
     "eslint-plugin-vue": "^7.4.1",
     "node-sass": "^5.0.0",
     "prettier": "^2.2.1",
-    "sass-loader": "^10.1.0"
+    "sass-loader": "^10.1.0",
+    "stylelint": "^13.8.0",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-prettier": "^1.1.2"
   }
 }
