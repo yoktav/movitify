@@ -2,9 +2,7 @@
   <header class="c-header" :class="modifierClass">
     <div class="container">
       <div class="c-header__inner">
-
         <NuxtLink to="/" class="c-header__logo">Movitify</NuxtLink>
-
       </div>
     </div>
   </header>
@@ -14,12 +12,13 @@
 export default {
   props: {
     modifierClass: {
-      type: String
+      type: String,
+      default: null,
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
-  @import './c-header.scss';
+@import './Header';
 </style>

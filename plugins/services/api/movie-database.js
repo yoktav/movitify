@@ -10,12 +10,12 @@ const END_POINTS = {
 };
 
 Vue.mixin({
-  methods:{
+  methods: {
     async fetchData(url) {
       const config = {
         headers: {
-          Accept: "application/json"
-        }
+          Accept: 'application/json',
+        },
       };
 
       try {
@@ -34,10 +34,9 @@ Vue.mixin({
 
       const promise = this.fetchData(url);
 
-      promise.then( response => {
+      promise.then(response => {
         this.movies = response.Search;
         this.isLoading = false;
-
       }, this.failureCallback);
     },
     searchByID(id) {
@@ -45,11 +44,10 @@ Vue.mixin({
 
       const promise = this.fetchData(url);
 
-      promise.then( response => {
+      promise.then(response => {
         this.movie = response;
         this.isLoading = false;
-
       }, this.failureCallback);
-    }
-  }
+    },
+  },
 });

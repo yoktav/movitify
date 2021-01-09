@@ -1,6 +1,6 @@
 <template>
   <div class="c-poster" :class="modifierClass">
-    <img :src="posterSrc" :alt="posterAlt" class="c-poster__image">
+    <img :src="posterSrc" :alt="posterAlt" class="c-poster__image" />
   </div>
 </template>
 
@@ -8,19 +8,21 @@
 export default {
   props: {
     posterSrc: {
-      type: String
+      type: String,
+      default: null,
     },
     posterAlt: {
       type: String,
-      default: 'Poster'
+      default: 'Poster',
     },
     modifierClass: {
       type: String,
-    }
-  }
-}
+      default: null,
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-  @import './c-poster.scss';
+@import './Poster';
 </style>
