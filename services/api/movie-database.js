@@ -3,7 +3,7 @@ import fetchData from '../../utils/fetchData';
 var express = require('express');
 var app = express();
 
-const BASE_URL = 'https://www.omdbapi.com';
+const BASE_URL = process.env.NUXT_ENV_OMDB_BASE_URL;
 const API_KEY = process.env.NUXT_ENV_OMDB_API_KEY;
 const SEARCH_BY_QUERY_STATE = 'searchByQuery';
 const SEARCH_BY_ID_STATE = 'searchById';
