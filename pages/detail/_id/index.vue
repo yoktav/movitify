@@ -73,7 +73,13 @@ export default {
     };
   },
   async created() {
-    this.searchByID(this.$route.params.id);
+    this.searchById(this.$route.params.id);
+  },
+  methods: {
+    async searchById(query) {
+      const result = await this.$api.searchById(query);
+      this.movie = result;
+    },
   },
 };
 </script>

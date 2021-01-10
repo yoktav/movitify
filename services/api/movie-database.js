@@ -7,7 +7,7 @@ const BASE_URL = 'https://www.omdbapi.com';
 const API_KEY = process.env.NUXT_ENV_OMDB_API_KEY;
 
 const END_POINTS = {
-  searchbyQuery: `${BASE_URL}/?apikey=${API_KEY}&s`,
+  searchByQuery: `${BASE_URL}/?apikey=${API_KEY}&s`,
   searchById: `${BASE_URL}/?apikey=${API_KEY}&i`,
 };
 
@@ -30,16 +30,16 @@ async function fetchData(url) {
 async function searchMovie(method, search_key) {
   let url = null;
 
-  if (method === 'searchbyQuery') {
-    url = `${END_POINTS.searchbyQuery}=${search_key}`;
-  } else if (method === 'searchbyId') {
-    url = `${END_POINTS.searchbyId}=${search_key}`;
+  if (method === 'searchByQuery') {
+    url = `${END_POINTS.searchByQuery}=${search_key}`;
+  } else if (method === 'searchById') {
+    url = `${END_POINTS.searchById}=${search_key}`;
   } else {
     return 'Error: Check your method!';
   }
 
   const movies = await fetchData(url);
-
+  // return url;
   return JSON.stringify(movies);
 }
 
@@ -48,7 +48,7 @@ app.get('/', function (request, response) {
 });
 
 app.get('/q/:slug', function (request, response) {
-  searchMovie('searchbyQuery', request.params.slug)
+  searchMovie('searchByQuery', request.params.slug)
     .then(request => {
       response.end(request);
     })
@@ -58,7 +58,7 @@ app.get('/q/:slug', function (request, response) {
 });
 
 app.get('/id/:slug', function (request, response) {
-  searchMovie('searchbyId', request.params.slug)
+  searchMovie('searchById', request.params.slug)
     .then(request => {
       response.end(request);
     })

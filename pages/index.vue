@@ -29,7 +29,13 @@ export default {
     };
   },
   created() {
-    this.searchMovie('harry-potter');
+    this.searchByQuery('batman');
+  },
+  methods: {
+    async searchByQuery(query) {
+      const result = await this.$api.searchByQuery(query);
+      this.movies = result.Search;
+    },
   },
 };
 </script>
