@@ -3,8 +3,6 @@
     <Header />
 
     <div class="container">
-      <p v-if="isLoading">Loading</p>
-
       <div class="row">
         <div v-for="movie in movies" :key="movie.imdbID" class="col col--md-3">
           <MovieCard
@@ -22,20 +20,10 @@
 <script>
 export default {
   name: 'App',
-  data() {
-    return {
-      isLoading: true,
-      movies: [],
-    };
-  },
-  created() {
-    this.searchByQuery('batman');
-  },
-  methods: {
-    async searchByQuery(query) {
-      const result = await this.$api.searchByQuery(query);
-      this.movies = result.Search;
-    },
+  async asyncData({ $api }) {
+    const result = await $api.searchByQuery('harry');
+    const movies = result.Search;
+    return { movies };
   },
 };
 </script>

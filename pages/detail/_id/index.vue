@@ -3,8 +3,6 @@
     <Header />
 
     <div class="container">
-      <p v-if="isLoading">Loading</p>
-
       <div class="row">
         <div class="col col--md-4">
           <Poster
@@ -54,11 +52,10 @@ export default {
       default: 'Movie Plot',
     },
   },
-  data() {
-    return {
-      isLoading: true,
-      movie: [],
-    };
+  async asyncData({ params, $api }) {
+    const result = await $api.searchById(params.id);
+    const movie = result;
+    return { movie };
   },
   head() {
     return {
@@ -71,15 +68,6 @@ export default {
         },
       ],
     };
-  },
-  async created() {
-    this.searchById(this.$route.params.id);
-  },
-  methods: {
-    async searchById(query) {
-      const result = await this.$api.searchById(query);
-      this.movie = result;
-    },
   },
 };
 </script>
