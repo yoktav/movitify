@@ -32,6 +32,14 @@ app.get('/', function (request, response) {
   response.json({ Response: 'false', Error: 'Bad request!' });
 });
 
+app.get('/q/', function (request, response) {
+  response.json({ Response: 'false', Error: 'Bad request!' });
+});
+
+app.get('/id/', function (request, response) {
+  response.json({ Response: 'false', Error: 'Bad request!' });
+});
+
 app.get('/q/:slug', function (request, response) {
   searchMovie(SEARCH_BY_QUERY_STATE, request.params.slug)
     .then(request => {
