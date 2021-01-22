@@ -1,0 +1,13 @@
+@import '../../assets/styles/abstracts/index';
+
+.c-search {
+  &__inner {
+    padding-top: pad(small);
+    padding-bottom: pad(small);
+  }
+
+  &__logo {
+    color: $color-white;
+    font-size: px-to-rem(36px);
+  }
+}

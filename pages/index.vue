@@ -2,6 +2,8 @@
   <div>
     <Header />
 
+    <Search @search-requested="searchByQuery" />
+
     <div class="container">
       <div class="row">
         <div v-for="movie in movies" :key="movie.imdbID" class="col col--md-3">
@@ -18,12 +20,25 @@
 </template>
 
 <script>
+const INITIAL_SEARCH_KEY = 'harry';
+
 export default {
   name: 'App',
   async asyncData({ $api }) {
-    const result = await $api.searchByQuery('harry');
+    const result = await $api.searchByQuery(INITIAL_SEARCH_KEY);
     const movies = result.Search;
     return { movies };
+  },
+  methods: {
+    async searchByQuery(query) {
+      if (query.length <= 0) {
+        const result = await this.$api.searchByQuery(INITIAL_SEARCH_KEY);
+        this.movies = result.Search;
+      } else {
+        const result = await this.$api.searchByQuery(query);
+        this.movies = result.Search;
+      }
+    },
   },
 };
 </script>
