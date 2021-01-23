@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header />
-    <div @click="clg"></div>
 
     <div class="container">
       <div v-if="movies" class="row">
@@ -22,18 +21,12 @@
 
 <script>
 export default {
-  name: 'App',
   async fetch(context) {
-    await context.store.dispatch('movies/setMovies', 'harry');
+    await context.store.dispatch('movies/setMovies', context.route.query.query);
   },
   computed: {
     movies() {
       return this.$store.getters['movies/getMovies'];
-    },
-  },
-  methods: {
-    clg() {
-      console.log('this.$route', this.$route);
     },
   },
 };

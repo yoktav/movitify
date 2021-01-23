@@ -1,9 +1,10 @@
 <template>
-  <form class="c-search" :class="modifierClass">
+  <form action="/search" class="c-search" :class="modifierClass">
     <input
       v-model="query"
       type="text"
       placeholder="Type here..."
+      name="query"
       class="c-search__input"
       @keyup="handleSearch"
     />
@@ -31,8 +32,7 @@ export default {
     };
   },
   methods: {
-    handleSearch(event) {
-      event.preventDefault();
+    handleSearch() {
       this.$emit('search-requested', this.query);
     },
   },
