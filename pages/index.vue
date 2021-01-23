@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header />
-    <div @click="clg"></div>
 
     <div class="container">
       <div v-if="movies" class="row">
@@ -29,11 +28,6 @@ export default {
   computed: {
     movies() {
       return this.$store.getters['movies/getMovies'];
-    },
-  },
-  methods: {
-    clg() {
-      console.log('this.$route', this.$route);
     },
   },
 };
