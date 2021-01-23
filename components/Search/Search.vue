@@ -3,7 +3,7 @@
     <input
       v-model="query"
       type="text"
-      placeholder="Type here"
+      placeholder="Type here..."
       class="c-search__input"
       @keyup="handleSearch"
     />

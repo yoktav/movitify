@@ -1,13 +1,34 @@
 @import '../../assets/styles/abstracts/index';
 
 .c-search {
-  &__inner {
-    padding-top: pad(small);
-    padding-bottom: pad(small);
+  $height: px-to-rem(30px);
+
+  display: flex;
+
+  &__input {
+    height: $height;
+    padding: pad(3xsmall);
+    border: 1px solid color-palette('gray', 400);
+    background-color: transparent;
+    color: $color-white;
+    font-size: $g-font-size-xsmall;
+
+    &::placeholder {
+      color: color-palette('gray', 400);
+    }
   }
 
-  &__logo {
+  &__button {
+    display: grid;
+    height: $height;
+    background-color: transparent;
+    border-color: transparent;
     color: $color-white;
-    font-size: px-to-rem(36px);
+    place-items: center;
+    transition: background-color $g-transition-duration $g-transition-timing-function;
+
+    &:hover {
+      background-color: color-palette('gray', 600);
+    }
   }
 }
