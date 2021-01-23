@@ -3,6 +3,8 @@
     <div class="container">
       <div class="c-header__inner">
         <NuxtLink to="/" class="c-header__logo">Movitify</NuxtLink>
+
+        <Search @search-requested="searchByQuery" />
       </div>
     </div>
   </header>
@@ -14,6 +16,15 @@ export default {
     modifierClass: {
       type: String,
       default: null,
+    },
+  },
+  methods: {
+    async searchByQuery(query) {
+      if (query.length <= 0) {
+        this.$store.dispatch('movies/setMovies', 'harry');
+      } else {
+        this.$store.dispatch('movies/setMovies', query);
+      }
     },
   },
 };
