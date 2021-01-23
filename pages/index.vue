@@ -4,7 +4,7 @@
 
     <div class="container">
       <div class="row">
-        <div v-for="movie in movies" :key="movie.imdbID" class="col col--md-3">
+        <div v-for="(movie, i) in movies" :key="i" class="col col--md-3">
           <MovieCard
             :id="movie.imdbID"
             :poster-src="movie.Poster"
@@ -18,13 +18,10 @@
 </template>
 
 <script>
-const INITIAL_SEARCH_KEY = 'harry';
-
 export default {
   name: 'App',
-  async asyncData({ store, $api }) {
-    const result = await $api.searchByQuery(INITIAL_SEARCH_KEY);
-    store.state.movies.movies = result.Search;
+  async fetch(context) {
+    await context.store.dispatch('movies/setMovies', 'harry');
   },
   computed: {
     movies() {
