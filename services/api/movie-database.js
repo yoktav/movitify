@@ -1,7 +1,13 @@
 import fetchData from '../../utils/fetchData';
 
-var express = require('express');
-var app = express();
+const REDIS_PORT = 6379;
+const ONE_HOUR = 3600;
+
+const express = require('express');
+const redis = require('redis');
+
+const client = redis.createClient(REDIS_PORT);
+const app = express();
 
 const BASE_URL = process.env.NUXT_ENV_OMDB_BASE_URL;
 const API_KEY = process.env.NUXT_ENV_OMDB_API_KEY;
@@ -13,44 +19,52 @@ const END_POINTS = {
   searchById: `${BASE_URL}/?apikey=${API_KEY}&i`,
 };
 
-async function searchMovie(method, query) {
+async function searchMovie(method, searchQuery) {
   let url = null;
 
   if (method === SEARCH_BY_QUERY_STATE) {
-    url = `${END_POINTS.searchByQuery}=${query}`;
+    url = `${END_POINTS.searchByQuery}=${searchQuery}`;
   } else if (method === SEARCH_BY_ID_STATE) {
-    url = `${END_POINTS.searchById}=${query}`;
+    url = `${END_POINTS.searchById}=${searchQuery}`;
   } else {
     return 'Error: Check your method!';
   }
 
   const movies = await fetchData(url);
-  return JSON.stringify(movies.data);
+  const data = JSON.stringify(movies.data);
+
+  // Set data to Redis
+  client.setex(searchQuery, ONE_HOUR, data);
+
+  return data;
 }
 
-app.get('/', function (request, response) {
-  response.json({ Response: 'false', Error: 'Bad request!' });
-});
+// Cache middleware
+function cache(request, response, next) {
+  const searchQuery = request.params.slug;
 
-app.get('/q/', function (request, response) {
-  response.json({ Response: 'false', Error: 'Bad request!' });
-});
+  client.get(searchQuery, (error, data) => {
+    if (error) throw error;
 
-app.get('/id/', function (request, response) {
-  response.json({ Response: 'false', Error: 'Bad request!' });
-});
+    if (data !== null) {
+      response.end(data);
+    } else {
+      next();
+    }
+  });
+}
 
-app.get('/q/:slug', function (request, response) {
+app.get('/q/:slug', cache, function (request, response) {
   searchMovie(SEARCH_BY_QUERY_STATE, request.params.slug)
     .then(request => {
       response.end(request);
     })
     .catch(error => {
-      response.json({ Error: error });
+      response.end({ Error: error });
     });
 });
 
-app.get('/id/:slug', function (request, response) {
+app.get('/id/:slug', cache, function (request, response) {
   searchMovie(SEARCH_BY_ID_STATE, request.params.slug)
     .then(request => {
       response.end(request);
