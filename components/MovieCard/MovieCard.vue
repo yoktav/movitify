@@ -31,10 +31,6 @@ export default {
       type: String,
       default: 'Movie Title',
     },
-    id: {
-      type: String,
-      default: null,
-    },
   },
   data() {
     return {
