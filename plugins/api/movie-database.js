@@ -12,18 +12,16 @@ const END_POINTS = {
   searchById: `${BASE_URL}/api/id`,
 };
 
-async function searchById(searchQuery) {
-  const url = `${END_POINTS.searchById}/${searchQuery}`;
-
+async function searchById(searchId) {
+  const url = `${END_POINTS.searchById}/${searchId}`;
   const movies = await fetchData(url);
+
   return movies.data;
 }
 
 async function searchByQuery(searchQuery) {
   const url = `${END_POINTS.searchByQuery}/${searchQuery}`;
-
   const movies = await fetchData(url);
-  // console.log(movies);
 
   return movies.data;
 }
