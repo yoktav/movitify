@@ -16,7 +16,7 @@ export const getters = {
 
 export const actions = {
   async setMovies(state, query) {
-    const result = await this.$api.searchByQuery(query);
+    const result = await this.$movieDBApi.searchByQuery(query);
     state.commit('setMovies', result.Search);
   },
 };

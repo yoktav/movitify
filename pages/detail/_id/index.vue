@@ -52,8 +52,8 @@ export default {
       default: 'Movie Plot',
     },
   },
-  async asyncData({ params, $api }) {
-    const result = await $api.searchById(params.id);
+  async asyncData({ params, $movieDBApi }) {
+    const result = await $movieDBApi.searchById(params.id);
     const movie = result;
     return { movie };
   },

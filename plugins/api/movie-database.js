@@ -1,8 +1,8 @@
 import fetchData from '../../utils/fetchData';
 
 export default (content, inject) => {
-  inject('api', api);
-  content.$api = api;
+  inject('movieDBApi', movieDBApi);
+  content.$movieDBApi = movieDBApi;
 };
 
 const BASE_URL = process.env.NUXT_ENV_PRODUCT_DOMAIN;
@@ -28,7 +28,7 @@ async function searchByQuery(searchQuery) {
   return movies.data;
 }
 
-const api = {
+const movieDBApi = {
   searchByQuery(query) {
     return searchByQuery(`${query}`);
   },
