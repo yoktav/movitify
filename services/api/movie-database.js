@@ -20,7 +20,7 @@ const END_POINTS = {
 async function searchById(searchId) {
   const url = `${END_POINTS.site}/movie/${searchId}?api_key=${API_KEY}`;
   const movies = await fetchData(url);
-  const data = movies.data;
+  const data = JSON.stringify(movies.data);
 
   // Set data to Redis
   client.setex(searchId, ONE_HOUR, data);
@@ -31,7 +31,7 @@ async function searchById(searchId) {
 async function searchByQuery(searchQuery) {
   const url = `${END_POINTS.site}/search/movie?api_key=${API_KEY}&query=${searchQuery}`;
   const movies = await fetchData(url);
-  const data = movies.data;
+  const data = JSON.stringify(movies.data);
 
   // Set data to Redis
   client.setex(searchQuery, ONE_HOUR, data);
@@ -57,20 +57,20 @@ function cache(request, response, next) {
 app.get('/q/:slug', cache, function (request, response) {
   searchByQuery(request.params.slug)
     .then(request => {
-      response.json(request);
+      response.end(request);
     })
     .catch(error => {
-      response.json({ Error: error });
+      response.end({ Error: error });
     });
 });
 
 app.get('/id/:slug', cache, function (request, response) {
   searchById(request.params.slug)
     .then(request => {
-      response.json(request);
+      response.end(request);
     })
     .catch(error => {
-      response.json({ Error: error });
+      response.end({ Error: error });
     });
 });
 
