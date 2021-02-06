@@ -23,10 +23,6 @@ export default {
       type: String,
       default: null,
     },
-    iconColor: {
-      type: String,
-      default: 'currentColor',
-    },
   },
 };
 </script>

@@ -9,27 +9,27 @@ const redis = require('redis');
 const client = redis.createClient(REDIS_PORT);
 const app = express();
 
-const BASE_URL = process.env.NUXT_ENV_OMDB_BASE_URL;
-const API_KEY = process.env.NUXT_ENV_OMDB_API_KEY;
-const SEARCH_BY_QUERY_STATE = 'searchByQuery';
-const SEARCH_BY_ID_STATE = 'searchById';
+const BASE_URL = process.env.NUXT_ENV_MOVIE_DB_BASE_URL;
+const API_VERSION = process.env.NUXT_ENV_MOVIE_DB_VERSION;
+const API_KEY = process.env.NUXT_ENV_MOVIE_DB_API_KEY;
 
 const END_POINTS = {
-  searchByQuery: `${BASE_URL}/?apikey=${API_KEY}&s`,
-  searchById: `${BASE_URL}/?apikey=${API_KEY}&i`,
+  site: `${BASE_URL}/${API_VERSION}`,
 };
 
-async function searchMovie(method, searchQuery) {
-  let url = null;
+async function searchById(searchId) {
+  const url = `${END_POINTS.site}/movie/${searchId}?api_key=${API_KEY}`;
+  const movies = await fetchData(url);
+  const data = JSON.stringify(movies.data);
 
-  if (method === SEARCH_BY_QUERY_STATE) {
-    url = `${END_POINTS.searchByQuery}=${searchQuery}`;
-  } else if (method === SEARCH_BY_ID_STATE) {
-    url = `${END_POINTS.searchById}=${searchQuery}`;
-  } else {
-    return 'Error: Check your method!';
-  }
+  // Set data to Redis
+  client.setex(searchId, ONE_HOUR, data);
 
+  return data;
+}
+
+async function searchByQuery(searchQuery) {
+  const url = `${END_POINTS.site}/search/movie?api_key=${API_KEY}&query=${searchQuery}`;
   const movies = await fetchData(url);
   const data = JSON.stringify(movies.data);
 
@@ -55,7 +55,7 @@ function cache(request, response, next) {
 }
 
 app.get('/q/:slug', cache, function (request, response) {
-  searchMovie(SEARCH_BY_QUERY_STATE, request.params.slug)
+  searchByQuery(request.params.slug)
     .then(request => {
       response.end(request);
     })
@@ -65,7 +65,7 @@ app.get('/q/:slug', cache, function (request, response) {
 });
 
 app.get('/id/:slug', cache, function (request, response) {
-  searchMovie(SEARCH_BY_ID_STATE, request.params.slug)
+  searchById(request.params.slug)
     .then(request => {
       response.end(request);
     })

@@ -1,6 +1,6 @@
 <template>
   <div class="c-movie-card">
-    <Poster :poster-src="posterSrc" :poster-alt="posterAlt" :modifier-class="PosterModifierClass" />
+    <Poster :poster-src="posterSrc" :poster-alt="posterAlt" :modifier-class="posterModifierClass" />
 
     <div class="c-movie-card__content">
       <h3 class="c-movie-card__title">{{ title }}</h3>
@@ -9,7 +9,7 @@
         <NuxtLink class="c-movie-card__link" :to="'detail/' + id">
           see details
 
-          <Icon :modifier-class="IconModifierClass" icon-name="Link"><IconExternal /></Icon>
+          <Icon :modifier-class="iconModifierClass" icon-name="Link"><IconExternal /></Icon>
         </NuxtLink>
       </div>
     </div>
@@ -27,20 +27,22 @@ export default {
       type: String,
       default: 'Poster Image',
     },
+    id: {
+      type: Number,
+      default: null,
+    },
     title: {
       type: String,
       default: 'Movie Title',
     },
-    id: {
+    posterModifierClass: {
       type: String,
-      default: null,
+      default: 'c-movie-card__poster',
     },
-  },
-  data() {
-    return {
-      PosterModifierClass: 'c-movie-card__poster',
-      IconModifierClass: 'u-margin-left-xsmall',
-    };
+    iconModifierClass: {
+      type: String,
+      default: 'u-margin-left-xsmall',
+    },
   },
 };
 </script>

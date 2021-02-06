@@ -1,6 +1,10 @@
 <template>
   <div class="c-poster" :class="modifierClass">
-    <img :src="posterSrc" :alt="posterAlt" class="c-poster__image" />
+    <img
+      :src="'https://image.tmdb.org/t/p/w500' + posterSrc"
+      :alt="posterAlt"
+      class="c-poster__image"
+    />
   </div>
 </template>
 

@@ -6,10 +6,10 @@
       <div v-if="movies" class="row">
         <div v-for="(movie, i) in movies" :key="i" class="col col--md-3">
           <MovieCard
-            :id="movie.imdbID"
-            :poster-src="movie.Poster"
-            :poster-alt="movie.Title"
-            :title="movie.Title"
+            :id="movie.id"
+            :poster-src="movie.poster_path"
+            :poster-alt="movie.title"
+            :title="movie.title"
           />
         </div>
       </div>

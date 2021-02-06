@@ -6,22 +6,22 @@
       <div class="row">
         <div class="col col--md-4">
           <Poster
-            :poster-src="movie.Poster"
-            :poster-alt="movie.Plot"
+            :poster-src="movie.poster_path"
+            :poster-alt="movie.title"
             :modifier-class="posterModifierClass"
           />
         </div>
 
         <div class="col col--md-8">
-          <h1>{{ movie.Title }}</h1>
+          <h1>{{ movie.title }}</h1>
 
           <p class="u-margin-ends-large">
             Description:
             <br />
-            {{ movie.Plot }}
+            {{ movie.overview }}
           </p>
 
-          <div class="c-font-weight-700">IMDB Rating: {{ movie.imdbRating }}</div>
+          <div class="c-font-weight-700">Vote Average: {{ movie.vote_average }}</div>
         </div>
       </div>
     </div>
@@ -35,36 +35,21 @@ export default {
       type: String,
       default: null,
     },
-    posterSrc: {
-      type: String,
-      default: null,
-    },
-    posterAlt: {
-      type: String,
-      default: 'Poster Image',
-    },
-    title: {
-      type: String,
-      default: 'Movie',
-    },
-    description: {
-      type: String,
-      default: 'Movie Plot',
-    },
   },
-  async asyncData({ params, $api }) {
-    const result = await $api.searchById(params.id);
+  async asyncData({ params, $movieDBApi }) {
+    const result = await $movieDBApi.searchById(params.id);
     const movie = result;
+
     return { movie };
   },
   head() {
     return {
-      title: this.movie.Title,
+      title: this.movie.title,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.movie.Plot,
+          content: this.movie.overview,
         },
       ],
     };
