@@ -41,6 +41,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'nuxt-lazy-load',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
