@@ -1,6 +1,7 @@
 export const state = () => ({
   movies: [],
   currentSearchQuery: null,
+  isSearchOpen: false,
 });
 
 export const mutations = {
@@ -10,14 +11,8 @@ export const mutations = {
   setCurrentSearchQuery(state, query) {
     state.currentSearchQuery = query;
   },
-};
-
-export const getters = {
-  getMovies: state => {
-    return state.movies;
-  },
-  getCurrentSearchQuery: state => {
-    return state.currentSearchQuery;
+  setIsSearchOpen(state, result) {
+    state.isSearchOpen = result;
   },
 };
 
@@ -28,5 +23,20 @@ export const actions = {
   },
   setCurrentSearchQuery(state, query) {
     state.commit('setCurrentSearchQuery', query);
+  },
+  setIsSearchOpen(state, query) {
+    state.commit('setIsSearchOpen', query);
+  },
+};
+
+export const getters = {
+  getMovies: state => {
+    return state.movies;
+  },
+  getCurrentSearchQuery: state => {
+    return state.currentSearchQuery;
+  },
+  getIsSearchOpen: state => {
+    return state.isSearchOpen;
   },
 };
