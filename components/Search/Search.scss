@@ -3,7 +3,12 @@
 .c-search {
   $height: px-to-rem(30px);
 
-  display: flex;
+  position: relative;
+  color: $color-white;
+
+  &__form {
+    display: flex;
+  }
 
   &__input {
     height: $height;
@@ -30,5 +35,11 @@
     &:hover {
       background-color: color-palette('gray', 600);
     }
+  }
+
+  &__result-list {
+    position: absolute;
+    z-index: 1;
+    background: red;
   }
 }
