@@ -75,7 +75,7 @@ export default {
       this.autocompleteMovies = null;
     },
     openSearch(event) {
-      if (this.isSearchOpen === true || this.searchQuery === null) {
+      if (this.isSearchOpen === true) {
         event.preventDefault();
       } else {
         return;
