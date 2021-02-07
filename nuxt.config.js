@@ -1,6 +1,9 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
+    htmlAttrs: {
+      lang: 'en',
+    },
     title: 'movitify',
     meta: [
       { charset: 'utf-8' },
@@ -38,6 +41,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'nuxt-lazy-load',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)

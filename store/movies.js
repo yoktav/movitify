@@ -8,15 +8,15 @@ export const mutations = {
   },
 };
 
-export const getters = {
-  getMovies: state => {
-    return state.movies;
-  },
-};
-
 export const actions = {
   async setMovies(state, query) {
     const movies = await this.$movieDBApi.searchByQuery(query);
     state.commit('setMovies', movies.results);
+  },
+};
+
+export const getters = {
+  getMovies: state => {
+    return state.movies;
   },
 };

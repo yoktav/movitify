@@ -4,7 +4,7 @@
       <div class="c-header__inner">
         <NuxtLink to="/" class="c-header__logo">Movitify</NuxtLink>
 
-        <Search @search-requested="searchByQuery" />
+        <Search />
       </div>
     </div>
   </header>
@@ -18,18 +18,9 @@ export default {
       default: null,
     },
   },
-  methods: {
-    async searchByQuery(query) {
-      if (query.length <= 0) {
-        this.$store.dispatch('movies/setMovies', 'harry');
-      } else {
-        this.$store.dispatch('movies/setMovies', query);
-      }
-    },
-  },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './Header';
 </style>

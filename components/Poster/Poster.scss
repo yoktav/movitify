@@ -1,12 +1,23 @@
 @import '../../assets/styles/abstracts/index';
 
 .c-poster {
+  $content-placeholder-color-base: $color-secondary;
+  $content-placeholder-color-highlight: lighten($content-placeholder-color-base, 7%);
+
   position: relative;
+  background-color: $content-placeholder-color-base;
 
   &::before {
     display: block;
     width: 100%;
     padding-top: percentage(3 / 2);
+    animation: progress 1s $g-transition-timing-function infinite;
+    background-image: linear-gradient(
+      90deg,
+      $content-placeholder-color-base,
+      $content-placeholder-color-highlight,
+      $content-placeholder-color-base
+    );
     content: '';
   }
 
