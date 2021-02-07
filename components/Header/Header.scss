@@ -2,6 +2,7 @@
 
 .c-header {
   &__inner {
+    position: relative;
     display: flex;
     align-items: center;
     padding-top: pad(small);

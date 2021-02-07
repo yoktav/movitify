@@ -1,6 +1,10 @@
 <template>
-  <div class="c-search">
+  <div class="c-search" :class="{ 'is-open': isSearchOpen }">
     <form action="/search" class="c-search__form" :class="modifierClass" autocomplete="off">
+      <button type="submit" class="c-search__submit" @click="openSearch">
+        <Icon :modifier-class="iconModifierClass" icon-name="Search"><IconSearch /></Icon>
+      </button>
+
       <input
         v-model="searchQuery"
         type="text"
@@ -8,17 +12,16 @@
         name="q"
         class="c-search__input"
         @keyup="autocomplete"
-        @click="searchMovie"
       />
 
-      <button type="submit" class="c-search__button">
-        <Icon :modifier-class="iconModifierClass" icon-name="Search"><IconSearch /></Icon>
+      <button type="button" class="c-search__close" @click="closeSearch">
+        <Icon :modifier-class="null" icon-name="Close"><IconClose /></Icon>
       </button>
     </form>
 
     <ul v-if="autocompleteMovies" class="c-search__result-list">
       <li v-for="(movie, i) in autocompleteMovies.slice(0, 7)" :key="i" class="">
-        <NuxtLink :to="'/search?q=' + movie.title" @click.native="goToMovie">{{
+        <NuxtLink :to="'/search?q=' + movie.title" @click.native="searchMovie">{{
           movie.title
         }}</NuxtLink>
       </li>
@@ -44,36 +47,56 @@ export default {
       autocompleteMovies: [],
     };
   },
+  computed: {
+    isSearchOpen() {
+      return this.$store.getters['movies/getIsSearchOpen'];
+    },
+  },
   methods: {
     async autocomplete() {
-      // Early exit
+      // Do not do something if searchQuery is empty
       if (this.searchQuery === null || this.searchQuery.length <= 0) {
+        this.autocompleteMovies = null;
         return;
       }
 
       const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
       this.autocompleteMovies = moviesResult.results;
 
-      this.$store.dispatch('movies/setCurrentSearchQuery', this.searchQuery);
+      this.setSearchQuery(this.searchQuery);
     },
-    goToMovie(event) {
+    searchMovie(event) {
       const searchValue = event.target.innerText;
 
-      this.$store.dispatch('movies/setCurrentSearchQuery', searchValue);
       this.$store.dispatch('movies/setMovies', this.searchQuery);
 
-      this.searchQuery = searchValue;
+      this.setSearchQuery(searchValue);
+
+      this.autocompleteMovies = null;
     },
-    searchMovie() {
-      // Early exit
-      if (this.searchQuery === null || this.searchQuery.length <= 0) {
+    openSearch(event) {
+      if (this.isSearchOpen === true || this.searchQuery === null) {
+        event.preventDefault();
+      } else {
         return;
       }
 
-      this.$store.dispatch('movies/setMovies', this.searchQuery);
-      this.$router.push({
-        path: `/search?q=${this.searchQuery}`,
-      });
+      event.preventDefault();
+      this.$el.querySelector('input').focus();
+      this.$store.dispatch('movies/setIsSearchOpen', true);
+    },
+    closeSearch() {
+      this.$store.dispatch('movies/setIsSearchOpen', false);
+      this.clearSearchQuery();
+      this.autocompleteMovies = null;
+    },
+    clearSearchQuery() {
+      this.$store.dispatch('movies/setCurrentSearchQuery', null);
+      this.searchQuery = this.$store.getters['movies/getCurrentSearchQuery'];
+    },
+    setSearchQuery(query) {
+      this.$store.dispatch('movies/setCurrentSearchQuery', query);
+      this.searchQuery = query;
     },
   },
 };
