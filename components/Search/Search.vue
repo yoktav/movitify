@@ -43,13 +43,13 @@ export default {
   },
   data() {
     return {
-      searchQuery: this.$store.getters['movies/getCurrentSearchQuery'],
+      searchQuery: this.$store.getters['search/getCurrentSearchQuery'],
       autocompleteMovies: [],
     };
   },
   computed: {
     isSearchOpen() {
-      return this.$store.getters['movies/getIsSearchOpen'];
+      return this.$store.getters['search/getIsSearchOpen'];
     },
   },
   methods: {
@@ -83,19 +83,19 @@ export default {
 
       event.preventDefault();
       this.$el.querySelector('input').focus();
-      this.$store.dispatch('movies/setIsSearchOpen', true);
+      this.$store.dispatch('search/setIsSearchOpen', true);
     },
     closeSearch() {
-      this.$store.dispatch('movies/setIsSearchOpen', false);
+      this.$store.dispatch('search/setIsSearchOpen', false);
       this.clearSearchQuery();
       this.autocompleteMovies = null;
     },
     clearSearchQuery() {
-      this.$store.dispatch('movies/setCurrentSearchQuery', null);
-      this.searchQuery = this.$store.getters['movies/getCurrentSearchQuery'];
+      this.$store.dispatch('search/setCurrentSearchQuery', null);
+      this.searchQuery = this.$store.getters['search/getCurrentSearchQuery'];
     },
     setSearchQuery(query) {
-      this.$store.dispatch('movies/setCurrentSearchQuery', query);
+      this.$store.dispatch('search/setCurrentSearchQuery', query);
       this.searchQuery = query;
     },
   },

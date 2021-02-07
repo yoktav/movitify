@@ -23,7 +23,7 @@
 export default {
   async fetch(context) {
     await context.store.dispatch('movies/setMovies', context.route.query.q);
-    context.store.dispatch('movies/setCurrentSearchQuery', context.route.query.q);
+    context.store.dispatch('search/setCurrentSearchQuery', context.route.query.q);
   },
   computed: {
     movies() {
