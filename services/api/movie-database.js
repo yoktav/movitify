@@ -17,24 +17,26 @@ const END_POINTS = {
   site: `${BASE_URL}/${API_VERSION}`,
 };
 
+async function searchByQuery(searchQuery, pageNumber) {
+  const cacheId = `query=${searchQuery}&page=${pageNumber}`;
+  const url = `${END_POINTS.site}/search/movie?api_key=${API_KEY}&query=${searchQuery}&page=${pageNumber}`;
+  const movies = await fetchData(url);
+  const data = JSON.stringify(movies.data);
+
+  // Set data to Redis
+  client.setex(cacheId, ONE_HOUR, data);
+
+  return data;
+}
+
 async function searchById(searchId) {
+  const cacheId = `id=${searchId}`;
   const url = `${END_POINTS.site}/movie/${searchId}?api_key=${API_KEY}`;
   const movies = await fetchData(url);
   const data = JSON.stringify(movies.data);
 
   // Set data to Redis
-  client.setex(searchId, ONE_HOUR, data);
-
-  return data;
-}
-
-async function searchByQuery(searchQuery) {
-  const url = `${END_POINTS.site}/search/movie?api_key=${API_KEY}&query=${searchQuery}`;
-  const movies = await fetchData(url);
-  const data = JSON.stringify(movies.data);
-
-  // Set data to Redis
-  client.setex(searchQuery, ONE_HOUR, data);
+  client.setex(cacheId, ONE_HOUR, data);
 
   return data;
 }
@@ -55,7 +57,7 @@ function cache(request, response, next) {
 }
 
 app.get('/q/:slug', cache, function (request, response) {
-  searchByQuery(request.params.slug)
+  searchByQuery(request.params.slug, request.query.page)
     .then(request => {
       response.end(request);
     })

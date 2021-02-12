@@ -22,7 +22,7 @@
 <script>
 export default {
   async fetch(context) {
-    await context.store.dispatch('movies/setMovies', context.route.query.q);
+    await context.store.dispatch('movies/setMovies', [context.route.query.q, 1]);
     context.store.dispatch('search/setCurrentSearchQuery', context.route.query.q);
   },
   computed: {

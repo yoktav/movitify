@@ -23,7 +23,7 @@
 export default {
   name: 'App',
   async fetch(context) {
-    await context.store.dispatch('movies/setMovies', 'harry');
+    await context.store.dispatch('movies/setMovies', ['harry', 1]);
   },
   computed: {
     movies() {

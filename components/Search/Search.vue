@@ -68,7 +68,7 @@ export default {
     searchMovie(event) {
       const searchValue = event.target.innerText;
 
-      this.$store.dispatch('movies/setMovies', this.searchQuery);
+      this.$store.dispatch('movies/setMovies', [this.searchQuery, 3]);
 
       this.setSearchQuery(searchValue);
 
