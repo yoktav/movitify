@@ -76,8 +76,6 @@ export default {
     },
     openSearch(event) {
       if (this.isSearchOpen === true) {
-        event.preventDefault();
-      } else {
         return;
       }
 
