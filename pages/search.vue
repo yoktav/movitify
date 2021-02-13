@@ -14,7 +14,9 @@
         </div>
       </div>
 
-      <p v-else class="u-color-warning u-text-align-center u-padding-ends">No movies found.</p>
+      <p v-if="noMovieFoundState" class="u-color-warning u-text-align-center u-padding-ends">
+        No movies found.
+      </p>
 
       <p v-if="noNewMovieState" class="u-color-info u-text-align-center u-padding-ends">
         That's All!
@@ -28,7 +30,10 @@ let pageNumber = 1;
 
 export default {
   async fetch(context) {
-    await context.store.dispatch('movies/setMovies', [context.route.query.q, 1]);
+    await context.store.dispatch('movies/setMovies', [
+      context.route.query.q,
+      context.route.query.page,
+    ]);
     context.store.dispatch('search/setCurrentSearchQuery', context.route.query.q);
   },
   computed: {
@@ -37,6 +42,9 @@ export default {
     },
     noNewMovieState() {
       return this.$store.getters['movies/getNoNewMovieState'];
+    },
+    noMovieFoundState() {
+      return this.$store.getters['movies/getNoMovieFoundState'];
     },
   },
   mounted: function () {
@@ -49,8 +57,24 @@ export default {
       }
     },
     async loadMoreMovies() {
+      if (this.$store.getters['movies/isLastPage']) {
+        return;
+      }
+
       pageNumber++;
+
       await this.$store.dispatch('movies/addMovies', [this.$route.query.q, pageNumber]);
+
+      // Not Working
+      // let query = this.$route.query;
+      // query.page = pageNumber.toString();
+      // console.log(query);
+      // this.$router.push({ path: '/search', query: query });
+
+      this.$router.push({
+        path: 'search',
+        query: { q: this.$route.query.q, page: `${pageNumber}` },
+      });
     },
   },
 };

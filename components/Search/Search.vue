@@ -14,6 +14,8 @@
         @keyup="autocomplete"
       />
 
+      <input type="text" name="page" value="1" class="u-display-none" />
+
       <button type="button" class="c-search__close" @click="closeSearch">
         <Icon :modifier-class="null" icon-name="Close"><IconClose /></Icon>
       </button>

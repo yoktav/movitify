@@ -1,6 +1,8 @@
 export const state = () => ({
   movies: [],
   noNewMovieState: false,
+  noMovieFoundState: false,
+  isLastPage: false,
 });
 
 export const mutations = {
@@ -15,6 +17,12 @@ export const mutations = {
   setNoNewMovieState(state, payload) {
     state.noNewMovieState = payload;
   },
+  setNoMovieFoundState(state, payload) {
+    state.noMovieFoundState = payload;
+  },
+  setIsLastPage(state, payload) {
+    state.isLastPage = payload;
+  },
 };
 
 export const actions = {
@@ -24,6 +32,10 @@ export const actions = {
 
     const movies = await this.$movieDBApi.searchByQuery(query, pageNumber);
     state.commit('setMovies', movies.results);
+
+    if (pageNumber > movies.total_pages) {
+      state.commit('setNoMovieFoundState', true);
+    }
   },
   async addMovies(state, params) {
     const query = params[0];
@@ -31,12 +43,17 @@ export const actions = {
 
     const movies = await this.$movieDBApi.searchByQuery(query, pageNumber);
 
-    if (movies.page === movies.total_pages) {
-      state.commit('setNoNewMovieState', true);
+    if (pageNumber <= movies.total_pages) {
+      state.commit('addMovies', movies.results);
     }
 
-    if (movies.page <= movies.total_pages) {
-      state.commit('addMovies', movies.results);
+    if (movies.page === movies.total_pages) {
+      state.commit('setNoNewMovieState', true);
+      state.commit('setIsLastPage', true);
+    }
+
+    if (pageNumber > movies.total_pages) {
+      state.commit('setNoMovieFoundState', true);
     }
   },
 };
@@ -47,5 +64,11 @@ export const getters = {
   },
   getNoNewMovieState: state => {
     return state.noNewMovieState;
+  },
+  getNoMovieFoundState: state => {
+    return state.noMovieFoundState;
+  },
+  getIsLastPage: state => {
+    return state.isLastPage;
   },
 };
