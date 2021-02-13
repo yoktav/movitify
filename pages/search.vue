@@ -14,21 +14,25 @@
         </div>
       </div>
 
-      <p v-if="noMovieFoundState" class="u-color-warning u-text-align-center u-padding-ends">
-        No movies found.
+      <p v-if="noNewMovieState" class="u-color-info u-text-align-center u-padding-ends">
+        That's All! Wanna make new search?
+        <button class="u-text-decoration-underline" @click="makeNewSearch">Click Here!</button>
       </p>
 
-      <p v-if="noNewMovieState" class="u-color-info u-text-align-center u-padding-ends">
-        That's All!
+      <p v-if="noMovieFoundState" class="u-color-warning u-text-align-center u-padding-ends">
+        No movies found.
       </p>
     </div>
   </div>
 </template>
 
 <script>
-let pageNumber = 1;
-
 export default {
+  data() {
+    return {
+      pageNumber: this.$route.query.page,
+    };
+  },
   async fetch(context) {
     await context.store.dispatch('movies/setMovies', [
       context.route.query.q,
@@ -48,33 +52,55 @@ export default {
     },
   },
   mounted: function () {
-    document.addEventListener('scroll', () => this.handleScroll());
+    document.addEventListener('scroll', this.handleScroll);
+  },
+  destroyed: function () {
+    document.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     handleScroll() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (
+        Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) +
+          window.innerHeight >=
+        document.documentElement.offsetHeight
+      ) {
         this.loadMoreMovies();
       }
     },
     async loadMoreMovies() {
-      if (this.$store.getters['movies/isLastPage']) {
+      if (this.$store.getters['movies/getIsLastPage']) {
         return;
       }
 
-      pageNumber++;
+      this.pageNumber++;
 
-      await this.$store.dispatch('movies/addMovies', [this.$route.query.q, pageNumber]);
+      await this.$store.dispatch('movies/addMovies', [this.$route.query.q, this.pageNumber]);
 
       // Not Working
       // let query = this.$route.query;
-      // query.page = pageNumber.toString();
+      // query.page = this.pageNumber.toString();
       // console.log(query);
       // this.$router.push({ path: '/search', query: query });
 
       this.$router.push({
         path: 'search',
-        query: { q: this.$route.query.q, page: `${pageNumber}` },
+        query: { q: this.$route.query.q, page: `${this.pageNumber}` },
       });
+    },
+    makeNewSearch() {
+      const searchComponent = this.$el.querySelector('.js-search');
+
+      this.$smoothScroll({
+        offset: -200,
+        updateHistory: false,
+        scrollTo: searchComponent,
+      });
+
+      this.$store.dispatch('search/setCurrentSearchQuery', null);
+      searchComponent.querySelector('input').value = null;
+
+      this.$store.dispatch('search/setIsSearchOpen', true);
+      searchComponent.querySelector('input').focus();
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="c-search" :class="{ 'is-open': isSearchOpen }">
+  <div class="c-search js-search" :class="{ 'is-open': isSearchOpen }">
     <form action="/search" class="c-search__form" :class="modifierClass" autocomplete="off">
       <button type="submit" class="c-search__submit" @click="openSearch">
         <Icon :modifier-class="iconModifierClass" icon-name="Search"><IconSearch /></Icon>
