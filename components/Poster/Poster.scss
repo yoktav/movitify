@@ -4,20 +4,36 @@
   $content-placeholder-color-base: $color-secondary;
   $content-placeholder-color-highlight: lighten($content-placeholder-color-base, 7%);
 
+  $is-loaded-class: is-loaded;
+  $is-undefined-class: is-undefined;
+
   position: relative;
+  overflow: hidden;
   background-color: $content-placeholder-color-base;
+
+  &:not(.#{$is-loaded-class}):not(.#{$is-undefined-class}) {
+    // stylelint-disable-next-line selector-max-specificity
+    &::before {
+      animation: progress 1s $g-transition-timing-function infinite;
+      background-image: linear-gradient(
+        90deg,
+        $content-placeholder-color-base,
+        $content-placeholder-color-highlight,
+        $content-placeholder-color-base
+      );
+    }
+  }
+
+  &.is-undefined {
+    &::before {
+      background-color: $content-placeholder-color-highlight;
+    }
+  }
 
   &::before {
     display: block;
     width: 100%;
     padding-top: percentage(3 / 2);
-    animation: progress 1s $g-transition-timing-function infinite;
-    background-image: linear-gradient(
-      90deg,
-      $content-placeholder-color-base,
-      $content-placeholder-color-highlight,
-      $content-placeholder-color-base
-    );
     content: '';
   }
 
@@ -42,5 +58,14 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: $color-botticelli;
+    font-size: px-to-rem(94px);
+    transform: translate3d(-50%, -50%, 0);
   }
 }

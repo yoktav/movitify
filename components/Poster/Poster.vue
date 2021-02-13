@@ -1,11 +1,20 @@
 <template>
-  <div class="c-poster" :class="modifierClass">
+  <div class="c-poster" :class="posterSrc === null ? 'is-undefined' : 'is-loaded'">
     <img
+      v-if="posterSrc !== null"
       v-lazy-load
       :data-src="'https://image.tmdb.org/t/p/w500' + posterSrc"
       :alt="posterAlt"
       class="c-poster__image"
     />
+
+    <Icon
+      v-if="posterSrc === null"
+      :modifier-class="null"
+      class="c-poster__icon"
+      icon-name="No Image Found"
+      ><IconImage
+    /></Icon>
   </div>
 </template>
 
