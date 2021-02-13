@@ -34,10 +34,10 @@ export default {
     };
   },
   async fetch(context) {
-    await context.store.dispatch('movies/setMovies', [
-      context.route.query.q,
-      context.route.query.page,
-    ]);
+    for (let i = 1; i <= context.route.query.page; i++) {
+      await context.store.dispatch('movies/addMovies', [context.route.query.q, i]);
+    }
+
     context.store.dispatch('search/setCurrentSearchQuery', context.route.query.q);
   },
   computed: {
