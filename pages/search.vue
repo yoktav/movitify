@@ -74,7 +74,6 @@ export default {
     }),
     ...mapActions({
       addMovies: 'movies/addMovies',
-      currentSearchQuery: 'search/setCurrentSearchQuery',
       isSearchOpen: 'search/setIsSearchOpen',
     }),
     handleScroll() {
@@ -107,7 +106,7 @@ export default {
       });
     },
     makeNewSearch() {
-      const searchComponent = this.$el.querySelector('.js-search');
+      const searchComponent = document.querySelector('.js-search');
 
       this.$smoothScroll({
         offset: -200,
@@ -115,7 +114,6 @@ export default {
         scrollTo: searchComponent,
       });
 
-      this.currentSearchQuery(null);
       searchComponent.querySelector('input').value = null;
 
       this.isSearchOpen(true);
