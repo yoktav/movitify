@@ -14,6 +14,10 @@
         </div>
       </div>
 
+      <p v-if="isMoviesLoading" class="u-color-info u-text-align-center u-padding-ends">
+        Movies loading...
+      </p>
+
       <p v-if="noNewMovieState" class="u-color-info u-text-align-center u-padding-ends">
         That's All! Wanna make new search?
         <button class="u-text-decoration-underline" @click="makeNewSearch">Click Here!</button>
@@ -49,6 +53,9 @@ export default {
     },
     noMovieFoundState() {
       return this.$store.getters['movies/getNoMovieFoundState'];
+    },
+    isMoviesLoading() {
+      return this.$store.getters['movies/getIsMoviesLoading'];
     },
   },
   mounted: function () {

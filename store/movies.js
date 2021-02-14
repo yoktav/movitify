@@ -3,6 +3,7 @@ export const state = () => ({
   noNewMovieState: false,
   noMovieFoundState: false,
   isLastPage: false,
+  isMoviesLoading: false,
 });
 
 export const mutations = {
@@ -10,6 +11,8 @@ export const mutations = {
     state.movies = payload;
   },
   addMovies(state, payload) {
+    state.isMoviesLoading = false;
+
     payload.forEach(item => {
       state.movies.push(item);
     });
@@ -22,6 +25,9 @@ export const mutations = {
   },
   setIsLastPage(state, payload) {
     state.isLastPage = payload;
+  },
+  setIsMoviesLoading(state, payload) {
+    state.isMoviesLoading = payload;
   },
 };
 
@@ -40,6 +46,7 @@ export const actions = {
   async addMovies(state, params) {
     const query = params[0];
     const pageNumber = params[1];
+    state.commit('setIsMoviesLoading', true);
 
     const movies = await this.$movieDBApi.searchByQuery(query, pageNumber);
 
@@ -70,5 +77,8 @@ export const getters = {
   },
   getIsLastPage: state => {
     return state.isLastPage;
+  },
+  getIsMoviesLoading: state => {
+    return state.isMoviesLoading;
   },
 };
