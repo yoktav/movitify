@@ -13,17 +13,25 @@ const END_POINTS = {
 };
 
 async function searchById(searchId) {
-  const url = `${END_POINTS.searchById}/${searchId}`;
-  const movies = await fetchData(url);
+  try {
+    const url = `${END_POINTS.searchById}/${searchId}`;
+    const movies = await fetchData(url);
 
-  return movies.data;
+    return movies.data;
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 async function searchByQuery(searchQuery, pageNumber) {
-  const url = `${END_POINTS.searchByQuery}/${searchQuery}?page=${pageNumber}`;
-  const movies = await fetchData(url);
+  try {
+    const url = `${END_POINTS.searchByQuery}/${searchQuery}?page=${pageNumber}`;
+    const movies = await fetchData(url);
 
-  return movies.data;
+    return movies.data;
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 const movieDBApi = {

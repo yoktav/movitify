@@ -38,11 +38,15 @@ export default {
     };
   },
   async fetch(context) {
-    for (let i = 1; i <= context.route.query.page; i++) {
-      await context.store.dispatch('movies/addMovies', [context.route.query.q, i]);
-    }
+    try {
+      for (let i = 1; i <= context.route.query.page; i++) {
+        await context.store.dispatch('movies/addMovies', [context.route.query.q, i]);
+      }
 
-    context.store.dispatch('search/setCurrentSearchQuery', context.route.query.q);
+      context.store.dispatch('search/setCurrentSearchQuery', context.route.query.q);
+    } catch (error) {
+      throw new Error(error);
+    }
   },
   computed: {
     movies() {
@@ -79,20 +83,24 @@ export default {
         return;
       }
 
-      this.pageNumber++;
+      try {
+        this.pageNumber++;
 
-      await this.$store.dispatch('movies/addMovies', [this.$route.query.q, this.pageNumber]);
+        await this.$store.dispatch('movies/addMovies', [this.$route.query.q, this.pageNumber]);
 
-      // Not Working
-      // let query = this.$route.query;
-      // query.page = this.pageNumber.toString();
-      // console.log(query);
-      // this.$router.push({ path: '/search', query: query });
+        // Not Working
+        // let query = this.$route.query;
+        // query.page = this.pageNumber.toString();
+        // console.log(query);
+        // this.$router.push({ path: '/search', query: query });
 
-      this.$router.push({
-        path: 'search',
-        query: { q: this.$route.query.q, page: `${this.pageNumber}` },
-      });
+        this.$router.push({
+          path: 'search',
+          query: { q: this.$route.query.q, page: `${this.pageNumber}` },
+        });
+      } catch (error) {
+        throw new Error(error);
+      }
     },
     makeNewSearch() {
       const searchComponent = this.$el.querySelector('.js-search');
