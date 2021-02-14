@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   props: {
     modifierClass: {
@@ -45,18 +47,26 @@ export default {
   },
   data() {
     return {
-      searchQuery: this.$store.getters['search/getCurrentSearchQuery'],
+      searchQuery: this.currentSearchQuery(),
       autocompleteMovies: [],
-
       debounce: null,
     };
   },
   computed: {
     isSearchOpen() {
-      return this.$store.getters['search/getIsSearchOpen'];
+      return this.getIsSearchOpen();
     },
   },
   methods: {
+    ...mapGetters({
+      currentSearchQuery: 'search/getCurrentSearchQuery',
+      getIsSearchOpen: 'search/getIsSearchOpen',
+    }),
+    ...mapActions({
+      setMovies: 'movies/setMovies',
+      setIsSearchOpen: 'search/setIsSearchOpen',
+      setCurrentSearchQuery: 'search/setCurrentSearchQuery',
+    }),
     autocomplete() {
       // Do not do something if searchQuery is empty
       if (this.searchQuery === null || this.searchQuery.length <= 0) {
@@ -75,7 +85,7 @@ export default {
     searchMovie(event) {
       const searchValue = event.target.innerText;
 
-      this.$store.dispatch('movies/setMovies', [this.searchQuery, 3]);
+      this.setMovies([this.searchQuery, 3]);
 
       this.setSearchQuery(searchValue);
 
@@ -88,19 +98,19 @@ export default {
 
       event.preventDefault();
       this.$el.querySelector('input').focus();
-      this.$store.dispatch('search/setIsSearchOpen', true);
+      this.setIsSearchOpen(true);
     },
     closeSearch() {
-      this.$store.dispatch('search/setIsSearchOpen', false);
+      this.setIsSearchOpen(false);
       this.clearSearchQuery();
       this.autocompleteMovies = null;
     },
     clearSearchQuery() {
-      this.$store.dispatch('search/setCurrentSearchQuery', null);
-      this.searchQuery = this.$store.getters['search/getCurrentSearchQuery'];
+      this.setCurrentSearchQuery(null);
+      this.searchQuery = this.currentSearchQuery();
     },
     setSearchQuery(query) {
-      this.$store.dispatch('search/setCurrentSearchQuery', query);
+      this.setCurrentSearchQuery(query);
       this.searchQuery = query;
     },
   },
