@@ -49,12 +49,16 @@ export default {
     return {
       searchQuery: this.currentSearchQuery(),
       autocompleteMovies: [],
-      debounce: null,
     };
   },
   computed: {
     isSearchOpen() {
       return this.getIsSearchOpen();
+    },
+  },
+  watch: {
+    searchQuery: function (newQuery) {
+      this.setCurrentSearchQuery(newQuery);
     },
   },
   methods: {
@@ -67,27 +71,18 @@ export default {
       setIsSearchOpen: 'search/setIsSearchOpen',
       setCurrentSearchQuery: 'search/setCurrentSearchQuery',
     }),
-    autocomplete() {
+    async autocomplete() {
       // Do not do something if searchQuery is empty
       if (this.searchQuery === null || this.searchQuery.length <= 0) {
         this.autocompleteMovies = null;
         return;
       }
 
-      clearTimeout(this.debounce);
-      this.debounce = setTimeout(async () => {
-        const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
-        this.autocompleteMovies = moviesResult.results;
-
-        this.setSearchQuery(this.searchQuery);
-      }, 100);
+      const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
+      this.autocompleteMovies = moviesResult.results;
     },
-    searchMovie(event) {
-      const searchValue = event.target.innerText;
-
+    searchMovie() {
       this.setMovies([this.searchQuery, 3]);
-
-      this.setSearchQuery(searchValue);
 
       this.autocompleteMovies = null;
     },
@@ -102,16 +97,8 @@ export default {
     },
     closeSearch() {
       this.setIsSearchOpen(false);
-      this.clearSearchQuery();
+      this.searchQuery = null;
       this.autocompleteMovies = null;
-    },
-    clearSearchQuery() {
-      this.setCurrentSearchQuery(null);
-      this.searchQuery = this.currentSearchQuery();
-    },
-    setSearchQuery(query) {
-      this.setCurrentSearchQuery(query);
-      this.searchQuery = query;
     },
   },
 };
