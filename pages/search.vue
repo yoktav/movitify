@@ -18,12 +18,12 @@
         Movies loading...
       </p>
 
-      <p v-if="noNewMovieState" class="u-color-info u-text-align-center u-padding-ends">
+      <p v-if="noNewMovieFound" class="u-color-info u-text-align-center u-padding-ends">
         That's All! Wanna make new search?
         <button class="u-text-decoration-underline" @click="makeNewSearch">Click Here!</button>
       </p>
 
-      <p v-if="noMovieFoundState" class="u-color-warning u-text-align-center u-padding-ends">
+      <p v-if="noMovieFound" class="u-color-warning u-text-align-center u-padding-ends">
         No movies found.
       </p>
     </div>
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
@@ -46,16 +48,16 @@ export default {
   },
   computed: {
     movies() {
-      return this.$store.getters['movies/getMovies'];
+      return this.getMovies();
     },
-    noNewMovieState() {
-      return this.$store.getters['movies/getNoNewMovieState'];
+    noNewMovieFound() {
+      return this.getNoNewMovieFound();
     },
-    noMovieFoundState() {
-      return this.$store.getters['movies/getNoMovieFoundState'];
+    noMovieFound() {
+      return this.getNoMovieFound();
     },
     isMoviesLoading() {
-      return this.$store.getters['movies/getIsMoviesLoading'];
+      return this.getIsMoviesLoading();
     },
   },
   mounted: function () {
@@ -65,6 +67,18 @@ export default {
     document.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
+    ...mapGetters({
+      getMovies: 'movies/getMovies',
+      isLastPage: 'movies/getIsLastPage',
+      getNoMovieFound: 'movies/getNoMovieFound',
+      getNoNewMovieFound: 'movies/getNoNewMovieFound',
+      getIsMoviesLoading: 'movies/getIsMoviesLoading',
+    }),
+    ...mapActions({
+      addMovies: 'movies/addMovies',
+      currentSearchQuery: 'search/setCurrentSearchQuery',
+      isSearchOpen: 'search/setIsSearchOpen',
+    }),
     handleScroll() {
       if (
         Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) +
@@ -75,13 +89,13 @@ export default {
       }
     },
     async loadMoreMovies() {
-      if (this.$store.getters['movies/getIsLastPage']) {
+      if (this.isLastPage()) {
         return;
       }
 
       this.pageNumber++;
 
-      await this.$store.dispatch('movies/addMovies', [this.$route.query.q, this.pageNumber]);
+      await this.addMovies([this.$route.query.q, this.pageNumber]);
 
       // Not Working
       // let query = this.$route.query;
@@ -103,10 +117,10 @@ export default {
         scrollTo: searchComponent,
       });
 
-      this.$store.dispatch('search/setCurrentSearchQuery', null);
+      this.currentSearchQuery(null);
       searchComponent.querySelector('input').value = null;
 
-      this.$store.dispatch('search/setIsSearchOpen', true);
+      this.isSearchOpen(true);
       searchComponent.querySelector('input').focus();
     },
   },

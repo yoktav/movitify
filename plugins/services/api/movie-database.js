@@ -1,4 +1,4 @@
-import fetchData from '../../utils/fetchData';
+import fetchData from '~/utils/fetchData';
 
 export default (content, inject) => {
   inject('movieDBApi', movieDBApi);
@@ -26,7 +26,7 @@ async function searchByQuery(searchQuery, pageNumber) {
   return movies.data;
 }
 
-const movieDBApi = {
+export const movieDBApi = {
   searchByQuery(query, pageNumber) {
     return searchByQuery(`${query}`, `${pageNumber}`);
   },

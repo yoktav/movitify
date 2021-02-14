@@ -27,12 +27,12 @@ export default {
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['~/plugins/api/movie-database.js', { src: '~/plugins/smoothScroll', ssr: false }],
+  plugins: ['~/plugins/services/api/movie-database', { src: '~/plugins/smoothScroll', ssr: false }],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
-  serverMiddleware: ['~/services/api/movie-database.js'],
+  serverMiddleware: ['~/serverMiddleware/services/api/movie-database'],
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [],

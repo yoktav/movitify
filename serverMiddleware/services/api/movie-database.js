@@ -1,4 +1,4 @@
-import fetchData from '../../utils/fetchData';
+import fetchData from '../../../utils/fetchData.js';
 
 const REDIS_PORT = 6379;
 const ONE_HOUR = 3600;
