@@ -67,10 +67,10 @@ export default {
       clearTimeout(this.debounce);
       this.debounce = setTimeout(async () => {
         try {
+          this.setSearchQuery(this.searchQuery);
+
           const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
           this.autocompleteMovies = moviesResult.results;
-
-          this.setSearchQuery(this.searchQuery);
         } catch (error) {
           throw new Error(error);
         }
