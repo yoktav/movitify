@@ -22,13 +22,15 @@
       </button>
     </form>
 
-    <ul v-if="autocompleteMovies.length > 0" class="c-search__result-list">
-      <li v-for="(movie, i) in autocompleteMovies.slice(0, 7)" :key="i" class="">
-        <NuxtLink :to="'/search?q=' + movie.title + '&page=1'" @click.native="searchMovie">{{
-          movie.title
-        }}</NuxtLink>
-      </li>
-    </ul>
+    <transition name="autocomplete">
+      <ul v-if="autocompleteMovies.length > 0" class="c-search__result-list">
+        <li v-for="(movie, i) in autocompleteMovies.slice(0, 7)" :key="i" class="">
+          <NuxtLink :to="'/search?q=' + movie.title + '&page=1'" @click.native="searchMovie">{{
+            movie.title
+          }}</NuxtLink>
+        </li>
+      </ul>
+    </transition>
   </div>
 </template>
 
@@ -98,6 +100,10 @@ export default {
     searchMovie(event) {
       this.searchQuery = event.target.innerText;
       this.autocompleteMovies = [];
+
+      if (this.$route.name === 'search') {
+        this.setMovies([this.searchQuery, 1]);
+      }
     },
     openSearch(event) {
       if (this.isSearchOpen === true) {
@@ -130,4 +136,17 @@ export default {
 
 <style lang="scss" scoped>
 @import './Search';
+@import '../../assets/styles/abstracts/index';
+
+.autocomplete-enter-active,
+.autocomplete-leave-active {
+  transition-duration: 0.2s;
+  transition-property: opacity;
+  transition-timing-function: $g-transition-timing-function;
+}
+
+.autocomplete-enter,
+.autocomplete-leave-to {
+  opacity: 0;
+}
 </style>
