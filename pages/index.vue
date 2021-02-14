@@ -20,6 +20,7 @@
 <script>
 export default {
   name: 'App',
+  transition: 'home',
   async fetch(context) {
     await context.store.dispatch('movies/setMovies', ['harry', 1]);
   },
@@ -30,3 +31,20 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../assets/styles/abstracts/index';
+
+.home-enter-active,
+.home-leave-active {
+  transition-duration: 0.8s;
+  transition-property: opacity, transform;
+  transition-timing-function: $g-transition-timing-function;
+}
+
+.home-enter,
+.home-leave-to {
+  opacity: 0;
+  transform: translateY(-15px); // stylelint-disable-line meowtec/no-px
+}
+</style>
