@@ -19,18 +19,18 @@ async function searchById(searchId) {
   return movies.data;
 }
 
-async function searchByQuery(searchQuery) {
-  const url = `${END_POINTS.searchByQuery}/${searchQuery}`;
+async function searchByQuery(searchQuery, pageNumber) {
+  const url = `${END_POINTS.searchByQuery}/${searchQuery}?page=${pageNumber}`;
   const movies = await fetchData(url);
 
   return movies.data;
 }
 
 const movieDBApi = {
-  searchByQuery(query) {
-    return searchByQuery(`${query}`);
+  searchByQuery(query, pageNumber) {
+    return searchByQuery(`${query}`, `${pageNumber}`);
   },
-  searchById(query) {
-    return searchById(`${query}`);
+  searchById(id) {
+    return searchById(`${id}`);
   },
 };

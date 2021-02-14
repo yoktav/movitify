@@ -1,5 +1,5 @@
 <template>
-  <div class="c-search" :class="{ 'is-open': isSearchOpen }">
+  <div class="c-search js-search" :class="{ 'is-open': isSearchOpen }">
     <form action="/search" class="c-search__form" :class="modifierClass" autocomplete="off">
       <button type="submit" class="c-search__submit" @click="openSearch">
         <Icon :modifier-class="iconModifierClass" icon-name="Search"><IconSearch /></Icon>
@@ -13,6 +13,8 @@
         class="c-search__input"
         @keyup="autocomplete"
       />
+
+      <input type="text" name="page" value="1" class="u-display-none" />
 
       <button type="button" class="c-search__close" @click="closeSearch">
         <Icon :modifier-class="null" icon-name="Close"><IconClose /></Icon>
@@ -45,6 +47,8 @@ export default {
     return {
       searchQuery: this.$store.getters['search/getCurrentSearchQuery'],
       autocompleteMovies: [],
+
+      debounce: null,
     };
   },
   computed: {
@@ -53,22 +57,25 @@ export default {
     },
   },
   methods: {
-    async autocomplete() {
+    autocomplete() {
       // Do not do something if searchQuery is empty
       if (this.searchQuery === null || this.searchQuery.length <= 0) {
         this.autocompleteMovies = null;
         return;
       }
 
-      const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
-      this.autocompleteMovies = moviesResult.results;
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(async () => {
+        const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
+        this.autocompleteMovies = moviesResult.results;
 
-      this.setSearchQuery(this.searchQuery);
+        this.setSearchQuery(this.searchQuery);
+      }, 100);
     },
     searchMovie(event) {
       const searchValue = event.target.innerText;
 
-      this.$store.dispatch('movies/setMovies', this.searchQuery);
+      this.$store.dispatch('movies/setMovies', [this.searchQuery, 3]);
 
       this.setSearchQuery(searchValue);
 
@@ -76,8 +83,6 @@ export default {
     },
     openSearch(event) {
       if (this.isSearchOpen === true) {
-        event.preventDefault();
-      } else {
         return;
       }
 
