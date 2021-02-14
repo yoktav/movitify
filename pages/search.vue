@@ -38,8 +38,9 @@ export default {
     };
   },
   async fetch(context) {
+    context.store.dispatch('movies/clearMovies');
+
     for (let i = 1; i <= context.route.query.page; i++) {
-      await context.store.dispatch('movies/clearMovies');
       await context.store.dispatch('movies/addMovies', [context.route.query.q, i]);
     }
 
