@@ -47,6 +47,8 @@ export default {
     return {
       searchQuery: this.$store.getters['search/getCurrentSearchQuery'],
       autocompleteMovies: [],
+
+      debounce: null,
     };
   },
   computed: {
@@ -55,17 +57,20 @@ export default {
     },
   },
   methods: {
-    async autocomplete() {
+    autocomplete() {
       // Do not do something if searchQuery is empty
       if (this.searchQuery === null || this.searchQuery.length <= 0) {
         this.autocompleteMovies = null;
         return;
       }
 
-      const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
-      this.autocompleteMovies = moviesResult.results;
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(async () => {
+        const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
+        this.autocompleteMovies = moviesResult.results;
 
-      this.setSearchQuery(this.searchQuery);
+        this.setSearchQuery(this.searchQuery);
+      }, 100);
     },
     searchMovie(event) {
       const searchValue = event.target.innerText;
