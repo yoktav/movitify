@@ -1,5 +1,5 @@
 <template>
-  <div class="c-search js-search" :class="{ 'is-open': isSearchOpen }">
+  <div ref="searchComponent" class="c-search js-search" :class="{ 'is-open': isSearchOpen }">
     <form action="/search" class="c-search__form" :class="modifierClass" autocomplete="off">
       <button type="submit" class="c-search__submit" @click="openSearch">
         <Icon :modifier-class="iconModifierClass" icon-name="Search"><IconSearch /></Icon>
@@ -12,6 +12,7 @@
         name="q"
         class="c-search__input"
         @keyup="autocomplete"
+        @keypress.enter="handleForm"
       />
 
       <input type="text" name="page" value="1" class="u-display-none" />
@@ -21,9 +22,9 @@
       </button>
     </form>
 
-    <ul v-if="autocompleteMovies" class="c-search__result-list">
+    <ul v-if="autocompleteMovies.length > 0" class="c-search__result-list">
       <li v-for="(movie, i) in autocompleteMovies.slice(0, 7)" :key="i" class="">
-        <NuxtLink :to="'/search?q=' + movie.title" @click.native="searchMovie">{{
+        <NuxtLink :to="'/search?q=' + movie.title + '&page=1'" @click.native="searchMovie">{{
           movie.title
         }}</NuxtLink>
       </li>
@@ -74,31 +75,54 @@ export default {
     async autocomplete() {
       // Do not do something if searchQuery is empty
       if (this.searchQuery === null || this.searchQuery.length <= 0) {
-        this.autocompleteMovies = null;
+        this.autocompleteMovies = [];
         return;
       }
 
       const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
       this.autocompleteMovies = moviesResult.results;
     },
-    searchMovie() {
-      this.setMovies([this.searchQuery, 3]);
+    handleForm(event) {
+      this.autocompleteMovies = [];
+      event.preventDefault();
 
-      this.autocompleteMovies = null;
+      this.$router.push({
+        path: '/search',
+        query: { q: this.searchQuery, page: 1 },
+      });
+
+      if (this.$route.name === 'search') {
+        this.setMovies([this.searchQuery, 1]);
+      }
+    },
+    searchMovie(event) {
+      this.searchQuery = event.target.innerText;
+      this.autocompleteMovies = [];
     },
     openSearch(event) {
       if (this.isSearchOpen === true) {
+        this.handleForm(event);
         return;
       }
 
       event.preventDefault();
       this.$el.querySelector('input').focus();
       this.setIsSearchOpen(true);
+      document.addEventListener('click', this.handleDocumentClick);
     },
     closeSearch() {
       this.setIsSearchOpen(false);
       this.searchQuery = null;
-      this.autocompleteMovies = null;
+      this.autocompleteMovies = [];
+    },
+    handleDocumentClick(event) {
+      let searchComponent = this.$refs.searchComponent;
+      let target = event.target;
+
+      if (searchComponent !== target && !searchComponent.contains(target)) {
+        this.closeSearch();
+        document.removeEventListener('click', this.handleDocumentClick);
+      }
     },
   },
 };
