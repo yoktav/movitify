@@ -35,3 +35,7 @@ export const addMovies = async ({ commit }, params) => {
     commit(types.SET_NO_MOVIE_FOUND, true);
   }
 };
+
+export const clearMovies = async ({ commit }) => {
+  commit(types.SET_MOVIES, []);
+};
