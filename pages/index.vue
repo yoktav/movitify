@@ -1,7 +1,5 @@
 <template>
   <div>
-    <Header />
-
     <div class="container">
       <div v-if="movies" class="row">
         <div v-for="(movie, i) in movies" :key="i" class="col col--md-3">
