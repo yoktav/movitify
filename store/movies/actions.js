@@ -1,5 +1,5 @@
 import * as types from './mutation_types';
-import { movieDBApi } from '~/services/api/movie-database';
+import { movieDBApi } from '~/plugins/services/api/movie-database';
 
 export const setMovies = async ({ commit }, params) => {
   const query = params[0];
