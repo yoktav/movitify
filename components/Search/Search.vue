@@ -15,7 +15,7 @@
         v-model="searchQuery"
         type="text"
         placeholder="Type here..."
-        name="q"
+        name="query"
         class="c-search__input"
         @keyup="autocomplete"
         @keypress.enter="handleForm"
@@ -31,7 +31,7 @@
     <transition name="autocomplete">
       <ul v-if="autocompleteMovies && autocompleteMovies.length" class="c-search__result-list">
         <li v-for="(movie, i) in autocompleteMovies.slice(0, MAXIMUM_SEEN_RESULT_NUMBER)" :key="i">
-          <NuxtLink :to="`/search?q=${movie.title}&page=1`" @click.native="searchMovie">
+          <NuxtLink :to="`/search?query=${movie.title}&page=1`" @click.native="searchMovie">
             {{ movie.title }}
           </NuxtLink>
         </li>
@@ -88,7 +88,7 @@ export default {
         return;
       }
 
-      const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery);
+      const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery, 1);
       this.autocompleteMovies = moviesResult.results;
     },
     handleForm(event) {
@@ -97,16 +97,16 @@ export default {
 
       this.$router.push({
         path: '/search',
-        query: { q: this.searchQuery, page: 1 },
+        query: { query: this.searchQuery, page: 1 },
       });
 
-      this.setMovies([this.searchQuery, 1]);
+      this.setMovies({ query: this.searchQuery, page: 1 });
     },
     searchMovie(event) {
       this.searchQuery = event.target.innerText;
       this.autocompleteMovies = [];
 
-      this.setMovies([this.searchQuery, 1]);
+      this.setMovies({ query: this.searchQuery, page: 1 });
     },
     openSearch(event) {
       if (this.isSearchOpen === true) {
