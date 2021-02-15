@@ -1,6 +1,12 @@
 <template>
-  <div ref="searchComponent" class="c-search js-search" :class="{ 'is-open': isSearchOpen }">
-    <form action="/search" class="c-search__form" :class="modifierClass" autocomplete="off">
+  <div class="c-search js-search" :class="{ 'is-open': isSearchOpen }">
+    <form
+      ref="searchForm"
+      action="/search"
+      class="c-search__form"
+      :class="modifierClass"
+      autocomplete="off"
+    >
       <button type="submit" class="c-search__submit" @click="openSearch">
         <Icon :modifier-class="iconModifierClass" icon-name="Search"><IconSearch /></Icon>
       </button>
@@ -119,10 +125,10 @@ export default {
       this.autocompleteMovies = [];
     },
     handleDocumentClick(event) {
-      let searchComponent = this.$refs.searchComponent;
+      let searchForm = this.$refs.searchForm;
       let target = event.target;
 
-      if (searchComponent !== target && !searchComponent.contains(target)) {
+      if (searchForm !== target && !searchForm.contains(target)) {
         this.closeSearch();
         document.removeEventListener('click', this.handleDocumentClick);
       }
