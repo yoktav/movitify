@@ -29,7 +29,7 @@
     </form>
 
     <transition name="autocomplete">
-      <ul v-if="autocompleteMovies.length > 0" class="c-search__result-list">
+      <ul v-if="autocompleteMovies && autocompleteMovies.length" class="c-search__result-list">
         <li v-for="(movie, i) in autocompleteMovies.slice(0, MAXIMUM_SEEN_RESULT_NUMBER)" :key="i">
           <NuxtLink :to="`/search?q=${movie.title}&page=1`" @click.native="searchMovie">
             {{ movie.title }}

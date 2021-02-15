@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <div v-if="movies" class="row">
+      <div v-if="movies && movies.length" class="row">
         <div v-for="(movie, i) in movies" :key="i" class="col col--md-3">
           <MovieCard
             :id="movie.id"
