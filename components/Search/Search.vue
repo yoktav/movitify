@@ -117,20 +117,20 @@ export default {
       event.preventDefault();
       this.$el.querySelector('input').focus();
       this.setIsSearchOpen(true);
-      document.addEventListener('click', this.handleDocumentClick);
+      document.addEventListener('click', this.closeSearchIfClickedOutsideSearch);
     },
     closeSearch() {
       this.setIsSearchOpen(false);
       this.searchQuery = null;
       this.autocompleteMovies = [];
     },
-    handleDocumentClick(event) {
+    closeSearchIfClickedOutsideSearch(event) {
       let searchForm = this.$refs.searchForm;
       let target = event.target;
 
       if (searchForm !== target && !searchForm.contains(target)) {
         this.closeSearch();
-        document.removeEventListener('click', this.handleDocumentClick);
+        document.removeEventListener('click', this.closeSearchIfClickedOutsideSearch);
       }
     },
   },
