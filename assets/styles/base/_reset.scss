@@ -27,3 +27,13 @@ button {
   -moz-osx-font-smoothing: grayscale; // 3
   text-rendering: optimizeLegibility; // 1
 }
+
+input,
+textarea,
+select,
+button {
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  outline: 0;
+}
