@@ -38,10 +38,10 @@ export default {
     };
   },
   async fetch(context) {
-    context.store.dispatch('searchpageMovies/clearMovies');
+    context.store.dispatch('pages/search/clearMovies');
 
     for (let i = 1; i <= context.route.query.page; i++) {
-      await context.store.dispatch('searchpageMovies/addMovies', [context.route.query.q, i]);
+      await context.store.dispatch('pages/search/addMovies', [context.route.query.q, i]);
     }
 
     context.store.dispatch('search/setCurrentSearchQuery', context.route.query.q);
@@ -68,14 +68,14 @@ export default {
   },
   methods: {
     ...mapGetters({
-      getMovies: 'searchpageMovies/getMovies',
-      isLastPage: 'searchpageMovies/getIsLastPage',
-      getNoMovieFound: 'searchpageMovies/getNoMovieFound',
-      getNoNewMovieFound: 'searchpageMovies/getNoNewMovieFound',
-      getIsMoviesLoading: 'searchpageMovies/getIsMoviesLoading',
+      getMovies: 'pages/search/getMovies',
+      isLastPage: 'pages/search/getIsLastPage',
+      getNoMovieFound: 'pages/search/getNoMovieFound',
+      getNoNewMovieFound: 'pages/search/getNoNewMovieFound',
+      getIsMoviesLoading: 'pages/search/getIsMoviesLoading',
     }),
     ...mapActions({
-      addMovies: 'searchpageMovies/addMovies',
+      addMovies: 'pages/search/addMovies',
       isSearchOpen: 'search/setIsSearchOpen',
     }),
     handleScroll() {

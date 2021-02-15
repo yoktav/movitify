@@ -71,7 +71,7 @@ export default {
       getIsSearchOpen: 'search/getIsSearchOpen',
     }),
     ...mapActions({
-      setMovies: 'searchpageMovies/setMovies',
+      setMovies: 'pages/search/setMovies',
       setIsSearchOpen: 'search/setIsSearchOpen',
       setCurrentSearchQuery: 'search/setCurrentSearchQuery',
     }),

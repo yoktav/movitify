@@ -22,11 +22,11 @@ export default {
   name: 'App',
   transition: 'home',
   async fetch(context) {
-    await context.store.dispatch('homepageMovies/setMovies', ['harry', 1]);
+    await context.store.dispatch('pages/home/setMovies', ['harry', 1]);
   },
   computed: {
     movies() {
-      return this.$store.getters['homepageMovies/getMovies'];
+      return this.$store.getters['pages/home/getMovies'];
     },
   },
 };
