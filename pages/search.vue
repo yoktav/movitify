@@ -38,13 +38,9 @@ export default {
     };
   },
   async fetch(context) {
+    const { query, page } = context.route.query;
     context.store.dispatch('pages/search/clearMovies');
-
-    for (let i = 1; i <= context.route.query.page; i++) {
-      await context.store.dispatch('pages/search/addMovies', [context.route.query.q, i]);
-    }
-
-    context.store.dispatch('search/setCurrentSearchQuery', context.route.query.q);
+    await context.store.dispatch('pages/search/addMovies', { query, page });
   },
   computed: {
     movies() {
@@ -94,7 +90,7 @@ export default {
 
       this.pageNumber++;
 
-      await this.addMovies([this.$route.query.q, this.pageNumber]);
+      await this.addMovies({ query: this.$route.query.query, page: this.pageNumber });
 
       // Not Working
       // let query = this.$route.query;
@@ -104,7 +100,7 @@ export default {
 
       this.$router.push({
         path: 'search',
-        query: { q: this.$route.query.q, page: `${this.pageNumber}` },
+        query: { query: this.$route.query.query, page: `${this.pageNumber}` },
       });
     },
     makeNewSearch() {
