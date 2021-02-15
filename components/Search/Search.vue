@@ -77,7 +77,7 @@ export default {
     }),
     async autocomplete() {
       // Do not do something if searchQuery is empty
-      if (this.searchQuery === null || this.searchQuery.length <= 0) {
+      if (!this.searchQuery || this.searchQuery === '') {
         this.autocompleteMovies = [];
         return;
       }
