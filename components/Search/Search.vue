@@ -24,7 +24,7 @@
 
     <transition name="autocomplete">
       <ul v-if="autocompleteMovies.length > 0" class="c-search__result-list">
-        <li v-for="(movie, i) in autocompleteMovies.slice(0, 7)" :key="i">
+        <li v-for="(movie, i) in autocompleteMovies.slice(0, MAXIMUM_SEEN_RESULT_NUMBER)" :key="i">
           <NuxtLink :to="`/search?q=${movie.title}&page=1`" @click.native="searchMovie">
             {{ movie.title }}
           </NuxtLink>
@@ -52,6 +52,7 @@ export default {
     return {
       searchQuery: this.currentSearchQuery(),
       autocompleteMovies: [],
+      MAXIMUM_SEEN_RESULT_NUMBER: 7,
     };
   },
   computed: {
