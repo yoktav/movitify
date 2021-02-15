@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'App',
   transition: 'home',
@@ -26,8 +28,13 @@ export default {
   },
   computed: {
     movies() {
-      return this.$store.getters['pages/home/getMovies'];
+      return this.getHomeMovies();
     },
+  },
+  methods: {
+    ...mapGetters({
+      getHomeMovies: 'pages/home/getMovies',
+    }),
   },
 };
 </script>
