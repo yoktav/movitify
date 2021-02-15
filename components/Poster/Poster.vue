@@ -3,7 +3,7 @@
     <img
       v-if="posterSrc !== null"
       v-lazy-load
-      :data-src="'https://image.tmdb.org/t/p/w500' + posterSrc"
+      :data-src="`https://image.tmdb.org/t/p/w500${posterSrc}`"
       :alt="posterAlt"
       class="c-poster__image"
     />

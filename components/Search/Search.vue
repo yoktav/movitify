@@ -24,10 +24,10 @@
 
     <transition name="autocomplete">
       <ul v-if="autocompleteMovies.length > 0" class="c-search__result-list">
-        <li v-for="(movie, i) in autocompleteMovies.slice(0, 7)" :key="i" class="">
-          <NuxtLink :to="'/search?q=' + movie.title + '&page=1'" @click.native="searchMovie">{{
-            movie.title
-          }}</NuxtLink>
+        <li v-for="(movie, i) in autocompleteMovies.slice(0, 7)" :key="i">
+          <NuxtLink :to="`/search?q=${movie.title}&page=1`" @click.native="searchMovie">
+            {{ movie.title }}
+          </NuxtLink>
         </li>
       </ul>
     </transition>
