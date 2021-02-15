@@ -71,7 +71,7 @@ export default {
       getIsSearchOpen: 'search/getIsSearchOpen',
     }),
     ...mapActions({
-      setMovies: 'movies/setMovies',
+      setMovies: 'searchpageMovies/setMovies',
       setIsSearchOpen: 'search/setIsSearchOpen',
       setCurrentSearchQuery: 'search/setCurrentSearchQuery',
     }),
@@ -94,17 +94,13 @@ export default {
         query: { q: this.searchQuery, page: 1 },
       });
 
-      if (this.$route.name === 'search') {
-        this.setMovies([this.searchQuery, 1]);
-      }
+      this.setMovies([this.searchQuery, 1]);
     },
     searchMovie(event) {
       this.searchQuery = event.target.innerText;
       this.autocompleteMovies = [];
 
-      if (this.$route.name === 'search') {
-        this.setMovies([this.searchQuery, 1]);
-      }
+      this.setMovies([this.searchQuery, 1]);
     },
     openSearch(event) {
       if (this.isSearchOpen === true) {

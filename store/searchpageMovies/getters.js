@@ -6,6 +6,4 @@ export const getNoMovieFound = state => state.noMovieFound;
 
 export const getIsLastPage = state => state.isLastPage;
 
-export const getIsMoviesLoading = state => state.acts;
-
-export const getActs = state => state.isMoviesLoading;
+export const getIsMoviesLoading = state => state.isMoviesLoading;
