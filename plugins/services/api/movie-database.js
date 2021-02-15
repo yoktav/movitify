@@ -20,6 +20,8 @@ async function searchById(searchId) {
 }
 
 async function searchByQuery(searchQuery, pageNumber) {
+  searchQuery = encodeURI(searchQuery);
+
   const url = `${END_POINTS.searchByQuery}/${searchQuery}?page=${pageNumber}`;
   const movies = await fetchData(url);
 
