@@ -2,8 +2,7 @@ import * as types from './mutation_types';
 import { movieDBApi } from '~/plugins/services/api/movie-database';
 
 export const setMovies = async ({ commit }, params) => {
-  const query = params[0];
-  const pageNumber = params[1];
+  const [query, pageNumber] = params;
 
   const movies = await movieDBApi.searchByQuery(query, pageNumber);
 
@@ -15,8 +14,7 @@ export const setMovies = async ({ commit }, params) => {
 };
 
 export const addMovies = async ({ commit }, params) => {
-  const query = params[0];
-  const pageNumber = params[1];
+  const [query, pageNumber] = params;
 
   commit(types.SET_IS_MOVIES_LOADING, true);
 
