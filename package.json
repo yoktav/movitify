@@ -50,7 +50,14 @@
     "stylelint-prettier": "^1.1.2"
   },
   "jest": {
-    "moduleFileExtensions": ["js", "jsx", "json", "vue", "ts", "tsx"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "vue",
+      "ts",
+      "tsx"
+    ],
     "transform": {
       ".*\\.(vue)$": "vue-jest",
       ".*\\.(js)$": "babel-jest"
@@ -59,8 +66,21 @@
       "^@/(.*)$": "<rootDir>/src/$1",
       "^~/(.*)$": "<rootDir>/src/$1"
     },
-    "setupFiles": ["./components/jest.components.js"],
-    "collectCoverage": false,
-    "collectCoverageFrom": ["**/*.{js,vue}", "!**/node_modules/**"]
+    "setupFiles": [
+      "./components/jest.components.js"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/nuxt-lazy-load"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/.nuxt",
+      "<rootDir>/coverage",
+      "<rootDir>/node_modules"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,vue}",
+      "!**/node_modules/**"
+    ]
   }
 }
