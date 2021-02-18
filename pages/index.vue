@@ -1,9 +1,7 @@
 <template>
   <div>
-    <Header />
-
     <div class="container">
-      <div v-if="movies" class="row">
+      <div v-if="movies && movies.length" class="row">
         <div v-for="(movie, i) in movies" :key="i" class="col col--md-3">
           <MovieCard
             :id="movie.id"
@@ -20,19 +18,44 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'App',
+  transition: 'home',
   async fetch(context) {
     try {
-      await context.store.dispatch('movies/setMovies', ['harry', 1]);
+    await context.store.dispatch('pages/home/setMovies', ['harry', 1]);
     } catch (error) {
       throw new Error(error);
     }
   },
   computed: {
     movies() {
-      return this.$store.getters['movies/getMovies'];
+      return this.getHomeMovies();
     },
+  },
+  methods: {
+    ...mapGetters({
+      getHomeMovies: 'pages/home/getMovies',
+    }),
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../assets/styles/abstracts/index';
+
+.home-enter-active,
+.home-leave-active {
+  transition-duration: 0.8s;
+  transition-property: opacity, transform;
+  transition-timing-function: $g-transition-timing-function;
+}
+
+.home-enter,
+.home-leave-to {
+  opacity: 0;
+  transform: translateY(-15px); // stylelint-disable-line meowtec/no-px
+}
+</style>

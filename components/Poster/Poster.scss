@@ -4,29 +4,16 @@
   $content-placeholder-color-base: $color-secondary;
   $content-placeholder-color-highlight: lighten($content-placeholder-color-base, 7%);
 
-  $is-loaded-class: is-loaded;
-  $is-undefined-class: is-undefined;
-
   position: relative;
   overflow: hidden;
   background-color: $content-placeholder-color-base;
 
-  &:not(.#{$is-loaded-class}):not(.#{$is-undefined-class}) {
-    // stylelint-disable-next-line selector-max-specificity
-    &::before {
-      animation: progress 1s $g-transition-timing-function infinite;
-      background-image: linear-gradient(
-        90deg,
-        $content-placeholder-color-base,
-        $content-placeholder-color-highlight,
-        $content-placeholder-color-base
-      );
-    }
-  }
-
+  &.is-loaded,
   &.is-undefined {
     &::before {
+      animation: none;
       background-color: $content-placeholder-color-highlight;
+      background-image: none;
     }
   }
 
@@ -34,15 +21,22 @@
     display: block;
     width: 100%;
     padding-top: percentage(3 / 2);
+    animation: progress 1s $g-transition-timing-function infinite;
+    background-image: linear-gradient(
+      90deg,
+      $content-placeholder-color-base,
+      $content-placeholder-color-highlight,
+      $content-placeholder-color-base
+    );
     content: '';
   }
 
   &::after {
     position: absolute;
     top: 0;
+    right: 0;
+    bottom: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
     background-image: linear-gradient(
       to top,
       rgba($color-secondary, 0.7) 15%,

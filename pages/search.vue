@@ -1,9 +1,7 @@
 <template>
   <div>
-    <Header />
-
     <div class="container">
-      <div v-if="movies" class="row">
+      <div v-if="movies && movies.length" class="row">
         <div v-for="(movie, i) in movies" :key="i" class="col col--md-3">
           <MovieCard
             :id="movie.id"
@@ -18,12 +16,12 @@
         Movies loading...
       </p>
 
-      <p v-if="noNewMovieState" class="u-color-info u-text-align-center u-padding-ends">
+      <p v-if="noNewMovieFound" class="u-color-info u-text-align-center u-padding-ends">
         That's All! Wanna make new search?
         <button class="u-text-decoration-underline" @click="makeNewSearch">Click Here!</button>
       </p>
 
-      <p v-if="noMovieFoundState" class="u-color-warning u-text-align-center u-padding-ends">
+      <p v-if="noMovieFound" class="u-color-warning u-text-align-center u-padding-ends">
         No movies found.
       </p>
     </div>
@@ -31,6 +29,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
@@ -39,27 +39,26 @@ export default {
   },
   async fetch(context) {
     try {
-      for (let i = 1; i <= context.route.query.page; i++) {
-        await context.store.dispatch('movies/addMovies', [context.route.query.q, i]);
-      }
+      const { query, page } = context.route.query;
+      context.store.dispatch('pages/search/clearMovies');
+      await context.store.dispatch('pages/search/addMovies', { query, page });
 
-      context.store.dispatch('search/setCurrentSearchQuery', context.route.query.q);
     } catch (error) {
       throw new Error(error);
     }
   },
   computed: {
     movies() {
-      return this.$store.getters['movies/getMovies'];
+      return this.getMovies();
     },
-    noNewMovieState() {
-      return this.$store.getters['movies/getNoNewMovieState'];
+    noNewMovieFound() {
+      return this.getNoNewMovieFound();
     },
-    noMovieFoundState() {
-      return this.$store.getters['movies/getNoMovieFoundState'];
+    noMovieFound() {
+      return this.getNoMovieFound();
     },
     isMoviesLoading() {
-      return this.$store.getters['movies/getIsMoviesLoading'];
+      return this.getIsMoviesLoading();
     },
   },
   mounted: function () {
@@ -69,6 +68,17 @@ export default {
     document.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
+    ...mapGetters({
+      getMovies: 'pages/search/getMovies',
+      isLastPage: 'pages/search/getIsLastPage',
+      getNoMovieFound: 'pages/search/getNoMovieFound',
+      getNoNewMovieFound: 'pages/search/getNoNewMovieFound',
+      getIsMoviesLoading: 'pages/search/getIsMoviesLoading',
+    }),
+    ...mapActions({
+      addMovies: 'pages/search/addMovies',
+      isSearchOpen: 'search/setIsSearchOpen',
+    }),
     handleScroll() {
       if (
         Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) +
@@ -79,14 +89,14 @@ export default {
       }
     },
     async loadMoreMovies() {
-      if (this.$store.getters['movies/getIsLastPage']) {
+      if (this.isLastPage()) {
         return;
       }
 
       try {
         this.pageNumber++;
 
-        await this.$store.dispatch('movies/addMovies', [this.$route.query.q, this.pageNumber]);
+        await this.addMovies({ query: this.$route.query.query, page: this.pageNumber });
 
         // Not Working
         // let query = this.$route.query;
@@ -94,16 +104,17 @@ export default {
         // console.log(query);
         // this.$router.push({ path: '/search', query: query });
 
+
         this.$router.push({
           path: 'search',
-          query: { q: this.$route.query.q, page: `${this.pageNumber}` },
+          query: { query: this.$route.query.query, page: `${this.pageNumber}` },
         });
       } catch (error) {
         throw new Error(error);
       }
     },
     makeNewSearch() {
-      const searchComponent = this.$el.querySelector('.js-search');
+      const searchComponent = document.querySelector('.js-search');
 
       this.$smoothScroll({
         offset: -200,
@@ -111,10 +122,9 @@ export default {
         scrollTo: searchComponent,
       });
 
-      this.$store.dispatch('search/setCurrentSearchQuery', null);
       searchComponent.querySelector('input').value = null;
 
-      this.$store.dispatch('search/setIsSearchOpen', true);
+      this.isSearchOpen(true);
       searchComponent.querySelector('input').focus();
     },
   },

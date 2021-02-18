@@ -6,7 +6,7 @@
       <h3 class="c-movie-card__title">{{ title }}</h3>
 
       <div class="c-movie-card__meta">
-        <NuxtLink class="c-movie-card__link" :to="'detail/' + id">
+        <NuxtLink class="c-movie-card__link" :to="`detail/${id}`">
           see details
 
           <Icon :modifier-class="iconModifierClass" icon-name="Link"><IconExternal /></Icon>
