@@ -25,7 +25,7 @@ export default {
   transition: 'home',
   async fetch(context) {
     try {
-    await context.store.dispatch('pages/home/setMovies', ['harry', 1]);
+      await context.store.dispatch('pages/home/setMovies', ['harry', 1]);
     } catch (error) {
       throw new Error(error);
     }

@@ -42,7 +42,6 @@ export default {
       const { query, page } = context.route.query;
       context.store.dispatch('pages/search/clearMovies');
       await context.store.dispatch('pages/search/addMovies', { query, page });
-
     } catch (error) {
       throw new Error(error);
     }
@@ -103,7 +102,6 @@ export default {
         // query.page = this.pageNumber.toString();
         // console.log(query);
         // this.$router.push({ path: '/search', query: query });
-
 
         this.$router.push({
           path: 'search',
