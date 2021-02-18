@@ -11,3 +11,5 @@ Vue.component('Icon', Icon);
 Vue.component('MovieCard', MovieCard);
 Vue.component('Poster', Poster);
 Vue.component('Search', Search);
+
+Vue.directive('lazy-load', {});
