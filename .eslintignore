@@ -1,3 +1,2 @@
 .nuxt
 node_modules
-**/*.spec.js
