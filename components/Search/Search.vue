@@ -88,8 +88,12 @@ export default {
         return;
       }
 
-      const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery, 1);
-      this.autocompleteMovies = moviesResult.results;
+      try {
+        const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery, 1);
+        this.autocompleteMovies = moviesResult.results;
+      } catch (error) {
+        throw new Error(error);
+      }
     },
     handleForm(event) {
       this.autocompleteMovies = [];
