@@ -12,7 +12,12 @@ module.exports = {
     '.*\\.(js)$': 'babel-jest',
   },
   setupFiles: ['<rootDir>/components/jest.components.js'],
-  transformIgnorePatterns: ['<rootDir>/node_modules/nuxt-lazy-load'],
+  transformIgnorePatterns: [
+    '<rootDir>/node_modules/nuxt-lazy-load',
+    '<rootDir>/node_modules/@babel',
+    '<rootDir>/node_modules/@jest',
+    'signal-exit',
+  ],
   modulePathIgnorePatterns: [
     '<rootDir>/.nuxt',
     '<rootDir>/coverage',
@@ -22,5 +27,4 @@ module.exports = {
   ],
   collectCoverage: false,
   collectCoverageFrom: ['**/*.{js,vue}', '!**/node_modules/**'],
-  forceExit: !!process.env.CI, // almost every CI platform sets this by default
 };
