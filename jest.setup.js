@@ -39,6 +39,14 @@ const config = Object.assign({}, nuxtConfig, resetConfig, {
 const buildNuxt = async () => {
   const nuxt = new Nuxt(config);
   await new Builder(nuxt).build();
+
+  console.info(
+    '\x1b[32m%s\x1b[0m',
+    '\n \n==============================================\n' +
+      ' Nuxtjs Store initialized!' +
+      '\n==============================================\n',
+  );
+
   return nuxt;
 };
 
