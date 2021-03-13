@@ -109,6 +109,7 @@ export default {
 
         await this.addMovies({ query: this.$route.query.query, page: this.pageNumber });
 
+        // TODO
         // Not Working
         // let query = this.$route.query;
         // query.page = this.pageNumber.toString();
