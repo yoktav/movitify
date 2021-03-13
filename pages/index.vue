@@ -24,7 +24,7 @@ export default {
   name: 'App',
   transition: 'home',
   async fetch(context) {
-    await context.store.dispatch('pages/home/setMovies', ['harry', 1]);
+    await context.store.dispatch('pages/home/setMovies', { query: 'harry', page: 1 });
   },
   computed: {
     movies() {
