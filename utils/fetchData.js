@@ -1,18 +1,25 @@
 import axios from 'axios';
 
-async function fetchData(url) {
-  const config = {
-    headers: {
-      Accept: 'application/json',
-    },
-  };
-
-  try {
-    const response = await axios.get(url, config);
+function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
     return response;
-  } catch (error) {
-    throw new Error(error);
   }
+
+  throw new Error(response.statusText);
 }
 
-export { fetchData as default };
+async function fetchData(url, options = {}) {
+  const config = options;
+  config.headers = {
+    Accept: 'application/json',
+  };
+
+  return axios
+    .get(url, config)
+    .then(checkStatus)
+    .catch(error => {
+      throw new Error(error);
+    });
+}
+
+export { fetchData };
