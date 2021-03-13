@@ -42,6 +42,18 @@ export default {
     context.store.dispatch('pages/search/clearMovies');
     await context.store.dispatch('pages/search/addMovies', { query, page });
   },
+  head() {
+    return {
+      title: `Search results for '${this.$route.query.query}'`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: `Search results for '${this.$route.query.query}'`,
+        },
+      ],
+    };
+  },
   computed: {
     movies() {
       return this.getMovies();
