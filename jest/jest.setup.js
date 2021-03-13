@@ -1,5 +1,5 @@
 import { Nuxt, Builder } from 'nuxt';
-import nuxtConfig from './nuxt.config.js';
+import nuxtConfig from '../nuxt.config.js';
 
 const resetConfig = {
   loading: false,

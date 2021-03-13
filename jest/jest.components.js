@@ -4,11 +4,11 @@
 
 import Vue from 'vue';
 
-import Header from './Header/Header.vue';
-import Icon from './Icon/Icon.vue';
-import MovieCard from './MovieCard/MovieCard.vue';
-import Poster from './Poster/Poster.vue';
-import Search from './Search/Search.vue';
+import Header from '../components/Header/Header.vue';
+import Icon from '../components/Icon/Icon.vue';
+import MovieCard from '../components/MovieCard/MovieCard.vue';
+import Poster from '../components/Poster/Poster.vue';
+import Search from '../components/Search/Search.vue';
 
 //
 // Components
