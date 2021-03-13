@@ -7,8 +7,10 @@ async function searchByQuery(searchQuery, pageNumber) {
   const movies = await fetchData(url);
   const data = JSON.stringify(movies.data);
 
-  // Set data to Redis
-  client.setex(cacheId, ONE_HOUR, data);
+  if (process.env.NUXT_ENV_IS_REDIS_OPEN === '1') {
+    // Set data to Redis
+    client.setex(cacheId, ONE_HOUR, data);
+  }
 
   return data;
 }
@@ -19,8 +21,10 @@ async function searchById(searchId) {
   const movies = await fetchData(url);
   const data = JSON.stringify(movies.data);
 
-  // Set data to Redis
-  client.setex(cacheId, ONE_HOUR, data);
+  if (process.env.NUXT_ENV_IS_REDIS_OPEN === '1') {
+    // Set data to Redis
+    client.setex(cacheId, ONE_HOUR, data);
+  }
 
   return data;
 }
