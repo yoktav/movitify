@@ -28,7 +28,7 @@ export const responseMovies = {
           original_language: 'en',
           original_title: 'Batman: Death in the Family',
           overview:
-            "Tragedy strikes the Batman's life again when Robin Jason Todd tracks down his birth mother only to run afoul of the Joker. An adaptation of the 1988 comic book storyline of the same name.",
+            'Tragedy strikes the Batmans life again when Robin Jason Todd tracks down his birth mother only to run afoul of the Joker. An adaptation of the 1988 comic book storyline of the same name.',
           popularity: 193.493,
           poster_path: '/k8Q9ulyRE8fkvZMkAM9LPYMKctb.jpg',
           release_date: '2020-10-13',
