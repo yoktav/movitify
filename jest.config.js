@@ -1,5 +1,5 @@
 module.exports = {
-  globalSetup: '<rootDir>/jest/jest.setup.js',
+  globalSetup: '<rootDir>/jest-config/jest.setup.js',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^~/(.*)$': '<rootDir>/$1',
@@ -11,7 +11,7 @@ module.exports = {
     '.*\\.(vue)$': 'vue-jest',
     '.*\\.(js)$': 'babel-jest',
   },
-  setupFiles: ['<rootDir>/jest/jest.components.js'],
+  setupFiles: ['<rootDir>/jest-config/jest.components.js'],
   transformIgnorePatterns: [
     '<rootDir>/node_modules/nuxt-lazy-load',
     '<rootDir>/node_modules/@babel',
