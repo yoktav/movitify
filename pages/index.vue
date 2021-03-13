@@ -24,7 +24,11 @@ export default {
   name: 'App',
   transition: 'home',
   async fetch(context) {
-    await context.store.dispatch('pages/home/setMovies', { query: 'harry', page: 1 });
+    try {
+      await context.store.dispatch('pages/home/setMovies', { query: 'harry', page: 1 });
+    } catch (error) {
+      throw new Error(error);
+    }
   },
   computed: {
     movies() {

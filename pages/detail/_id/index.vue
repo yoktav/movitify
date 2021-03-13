@@ -29,10 +29,14 @@
 <script>
 export default {
   async asyncData({ params, $movieDBApi }) {
-    const result = await $movieDBApi.searchById(params.id);
-    const movie = result;
+    try {
+      const result = await $movieDBApi.searchById(params.id);
+      const movie = result;
 
-    return { movie };
+      return { movie };
+    } catch (error) {
+      throw new Error(error);
+    }
   },
   head() {
     return {
