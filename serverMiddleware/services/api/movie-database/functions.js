@@ -1,4 +1,4 @@
-import fetchData from '../../../../utils/fetchData.js';
+import { fetchData } from '../../../../utils/fetchData.js';
 import { ONE_HOUR, client, END_POINTS, API_KEY } from './constans';
 
 async function searchByQuery(searchQuery, pageNumber) {

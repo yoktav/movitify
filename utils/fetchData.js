@@ -22,4 +22,12 @@ async function fetchData(url, options = {}) {
     });
 }
 
-export { fetchData };
+function fetchDataWithDelay(...args) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      fetch(...args).then(data => resolve(data));
+    }, 2000);
+  });
+}
+
+export { fetchData, fetchDataWithDelay };

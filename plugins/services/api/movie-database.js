@@ -1,4 +1,4 @@
-import fetchData from '~/utils/fetchData';
+import { fetchData } from '~/utils/fetchData';
 
 export default (content, inject) => {
   inject('movieDBApi', movieDBApi);
