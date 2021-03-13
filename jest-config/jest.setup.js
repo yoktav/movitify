@@ -1,5 +1,6 @@
 import { Nuxt, Builder } from 'nuxt';
 import nuxtConfig from '../nuxt.config.js';
+import 'colors'; // Console colors
 
 const resetConfig = {
   loading: false,
@@ -41,10 +42,9 @@ const buildNuxt = async () => {
   await new Builder(nuxt).build();
 
   console.info(
-    '\x1b[32m%s\x1b[0m',
-    '\n \n==============================================\n' +
-      ' Nuxtjs Store initialized!' +
-      '\n==============================================\n',
+    '\n \n==============================================\n'.brightGreen +
+      ' Nuxtjs Store initialized!'.brightGreen +
+      '\n==============================================\n'.brightGreen,
   );
 
   return nuxt;
