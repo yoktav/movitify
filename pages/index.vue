@@ -1,73 +1,68 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        movitify
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div>
+    <div class="container">
+      <div v-if="movies && movies.length" class="row">
+        <div v-for="(movie, i) in movies" :key="i" class="col col--md-3">
+          <MovieCard
+            :id="movie.id"
+            :poster-src="movie.poster_path"
+            :poster-alt="movie.title"
+            :title="movie.title"
+          />
+        </div>
       </div>
+
+      <p v-else class="u-color-warning u-text-align-center">No movies found.</p>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex';
+import * as STORE_CONSTANTS from '~/store/constants';
+
+export default {
+  name: 'App',
+  transition: 'home',
+  async fetch(context) {
+    try {
+      await context.store.dispatch(
+        `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_HOME.BASE}/${STORE_CONSTANTS.MODULE_PAGES_HOME.ACTIONS.SET_MOVIES}`,
+        {
+          query: 'iron',
+          page: 1,
+        },
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  computed: {
+    movies() {
+      return this.getHomeMovies();
+    },
+  },
+  methods: {
+    ...mapGetters({
+      getHomeMovies: `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_HOME.BASE}/${STORE_CONSTANTS.MODULE_PAGES_HOME.GETTERS.GET_MOVIES}`,
+    }),
+  },
+};
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+<style lang="scss" scoped>
+@import '../assets/styles/abstracts/index';
+
+.home-enter-active,
+.home-leave-active {
+  transition-duration: 0.8s;
+  transition-property: opacity, transform;
+  transition-timing-function: $g-transition-timing-function;
 }
 
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.home-enter,
+.home-leave-to {
+  opacity: 0;
+  transform: translateY(-15px); // stylelint-disable-line meowtec/no-px
 }
 </style>

@@ -1,0 +1,58 @@
+@import '../../assets/styles/abstracts/index';
+
+.c-movie-card {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: gap();
+  margin-bottom: gap();
+
+  &:hover {
+    .c-movie-card__content {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .c-movie-card__poster {
+      transform: scale3d(1.02, 1.02, 1.02);
+    }
+  }
+
+  &__poster {
+    transition: transform $g-transition-duration $g-transition-timing-function;
+  }
+
+  &__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: pad(small);
+    transform: translate3d(0, px-to-rem(56px), 0);
+    transition: transform $g-transition-duration $g-transition-timing-function;
+  }
+
+  &__title {
+    margin-bottom: gap(small);
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    letter-spacing: px-to-rem(1px);
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    padding: pad(2xsmall);
+    border-radius: $g-border-radius;
+    color: $color-white;
+    text-decoration: none;
+    transition: background-color $g-transition-duration $g-transition-timing-function;
+
+    &:hover {
+      background-color: rgba($color-white, 0.3);
+      color: $color-white;
+    }
+  }
+}

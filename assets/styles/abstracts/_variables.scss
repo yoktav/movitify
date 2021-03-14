@@ -20,7 +20,7 @@ $g-link-hover-decoration: none !default;
 // Typography
 // -------------------------
 
-$g-font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
+$g-font-family-sans-serif: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
 $g-font-family-base: $g-font-family-sans-serif !default;
 
 // $g-font-size-root effects the value of `rem`, which is used for as well font sizes, paddings and margins
@@ -45,7 +45,7 @@ $g-font-size-h5-small-screen: null !default;
 $g-font-size-h6-small-screen: null !default;
 
 $g-headings-font-family: inherit !default;
-$g-headings-font-weight: 500 !default;
+$g-headings-font-weight: 700 !default;
 $g-headings-line-height: 1.1 !default;
 $g-headings-margin-bottom: 1rem !default;
 
@@ -199,3 +199,5 @@ $grid-gutter-width: px-to-rem(32px) !default;
 //
 //  Global `z-index` values should be defined below
 // -------------------------
+
+$z-index-c-search-result-list: 1;

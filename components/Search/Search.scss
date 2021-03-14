@@ -1,0 +1,99 @@
+@import '../../assets/styles/abstracts/index';
+
+.c-search {
+  $mobile-breakpoint-up-value: md;
+  $mobile-breakpoint-down-value: sm;
+
+  position: relative;
+  border: 1px solid transparent;
+  background-color: $color-secondary;
+  color: $color-white;
+  transition: border-color $g-transition-duration $g-transition-timing-function;
+
+  @include media-breakpoint-down($mobile-breakpoint-down-value) {
+    position: absolute;
+    right: 0;
+  }
+
+  &__form {
+    position: relative;
+    display: flex;
+    height: px-to-rem(32px);
+    padding-right: pad();
+
+    @include media-breakpoint-down($mobile-breakpoint-down-value) {
+      height: px-to-rem(48px);
+    }
+  }
+
+  &.is-open {
+    border-color: color-palette('gray', 400);
+
+    @include media-breakpoint-down($mobile-breakpoint-down-value) {
+      width: 100%;
+    }
+
+    .c-search__input {
+      width: px-to-rem(200px);
+    }
+
+    .c-search__close {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &__input {
+    width: 0;
+    flex-grow: 1;
+    padding: pad(3xsmall);
+    color: $color-white;
+    font-size: $g-font-size-xsmall;
+    transition: width $g-transition-duration $g-transition-timing-function;
+
+    &::placeholder {
+      color: color-palette('gray', 400);
+    }
+  }
+
+  &__submit {
+    display: grid;
+    color: $color-white;
+    place-items: center;
+    transition: background-color $g-transition-duration $g-transition-timing-function;
+
+    &:hover {
+      background-color: color-palette('gray', 600);
+    }
+  }
+
+  &__close {
+    position: absolute;
+    right: 0;
+    display: grid;
+    height: 100%;
+    color: $color-white;
+    opacity: 0;
+    place-items: center;
+    pointer-events: none;
+    transition: opacity $g-transition-duration $g-transition-timing-function,
+      transform $g-transition-duration $g-transition-timing-function;
+
+    &:hover {
+      $scale-value: 1.1;
+
+      transform: scale3d($scale-value, $scale-value, $scale-value);
+    }
+  }
+
+  &__result-list {
+    @include list-unstyled($padding-left: 0, $margin-bottom: 0);
+
+    position: absolute;
+    z-index: $z-index-c-search-result-list;
+    width: 100%;
+    margin-top: 0;
+
+    background-color: color-palette('gray', 700);
+  }
+}

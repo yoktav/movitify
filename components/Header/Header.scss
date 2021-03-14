@@ -1,0 +1,17 @@
+@import '../../assets/styles/abstracts/index';
+
+.c-header {
+  &__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-top: pad(small);
+    padding-bottom: pad(small);
+  }
+
+  &__logo {
+    margin-right: auto;
+    color: $color-white;
+    font-size: px-to-rem(36px);
+  }
+}
