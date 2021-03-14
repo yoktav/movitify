@@ -30,6 +30,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import * as STORE_CONSTANTS from '~/store/constants';
 
 export default {
   data() {
@@ -40,8 +41,13 @@ export default {
   async fetch(context) {
     try {
       const { query, page } = context.route.query;
-      context.store.dispatch('pages/search/clearMovies');
-      await context.store.dispatch('pages/search/addMovies', { query, page });
+      context.store.dispatch(
+        `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.ACTIONS.CLEAR_MOVIES}`,
+      );
+      await context.store.dispatch(
+        `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.ACTIONS.ADD_MOVIES}`,
+        { query, page },
+      );
     } catch (error) {
       throw new Error(error);
     }
@@ -80,15 +86,15 @@ export default {
   },
   methods: {
     ...mapGetters({
-      getMovies: 'pages/search/getMovies',
-      isLastPage: 'pages/search/getIsLastPage',
-      getNoMovieFound: 'pages/search/getNoMovieFound',
-      getNoNewMovieFound: 'pages/search/getNoNewMovieFound',
-      getIsMoviesLoading: 'pages/search/getIsMoviesLoading',
+      getMovies: `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.GETTERS.GET_MOVIES}`,
+      isLastPage: `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.GETTERS.GET_IS_LAST_PAGE}`,
+      getNoMovieFound: `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.GETTERS.GET_NO_MOVIE_FOUND}`,
+      getNoNewMovieFound: `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.GETTERS.GET_NO_NEW_MOVIE_FOUND}`,
+      getIsMoviesLoading: `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.GETTERS.GET_IS_MOVIES_LOADING}`,
     }),
     ...mapActions({
-      addMovies: 'pages/search/addMovies',
-      isSearchOpen: 'search/setIsSearchOpen',
+      addMovies: `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.ACTIONS.ADD_MOVIES}`,
+      isSearchOpen: `${STORE_CONSTANTS.MODULE_SEARCH}/${STORE_CONSTANTS.MODULE_SEARCH.SET_IS_SEARCH_OPEN}`,
     }),
     handleScroll() {
       if (

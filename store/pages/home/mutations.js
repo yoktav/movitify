@@ -1,7 +1,7 @@
-import * as types from './mutation_types';
+import { MODULE_PAGES_HOME } from './constants';
 
 export default {
-  [types.SET_MOVIES](state, payload) {
+  [MODULE_PAGES_HOME.MUTATIONS.SET_MOVIES](state, payload) {
     state.movies = payload;
   },
 };

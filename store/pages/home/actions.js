@@ -1,4 +1,4 @@
-import * as types from './mutation_types';
+import { MODULE_PAGES_HOME } from './constants';
 import { movieDBApi } from '~/plugins/services/api/movie-database';
 
 export const setMovies = async ({ commit }, params) => {
@@ -6,5 +6,5 @@ export const setMovies = async ({ commit }, params) => {
 
   const movies = await movieDBApi.searchByQuery(query, pageNumber);
 
-  commit(types.SET_MOVIES, movies.results);
+  commit(MODULE_PAGES_HOME.MUTATIONS.SET_MOVIES, movies.results);
 };

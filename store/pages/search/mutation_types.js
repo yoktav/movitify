@@ -1,9 +1,0 @@
-export const SET_MOVIES = 'SET_MOVIES';
-
-export const ADD_MOVIES = 'ADD_MOVIES';
-
-export const SET_NO_NEW_MOVIE_FOUND = 'SET_NO_NEW_MOVIE_FOUND';
-export const SET_NO_MOVIE_FOUND = 'SET_NO_MOVIE_FOUND';
-
-export const SET_IS_LAST_PAGE = 'SET_IS_LAST_PAGE';
-export const SET_IS_MOVIES_LOADING = 'SET_IS_MOVIES_LOADING';
