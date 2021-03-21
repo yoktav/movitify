@@ -42,6 +42,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import * as STORE_CONSTANTS from '~/store/constants';
 
 export default {
   props: {
@@ -73,13 +74,13 @@ export default {
   },
   methods: {
     ...mapGetters({
-      currentSearchQuery: 'search/getCurrentSearchQuery',
-      getIsSearchOpen: 'search/getIsSearchOpen',
+      getIsSearchOpen: `${STORE_CONSTANTS.MODULE_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_SEARCH.GETTERS.GET_IS_SEARCH_OPEN}`,
+      currentSearchQuery: `${STORE_CONSTANTS.MODULE_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_SEARCH.GETTERS.GET_CURRENT_SEARCH_QUERY}`,
     }),
     ...mapActions({
-      setMovies: 'pages/search/setMovies',
-      setIsSearchOpen: 'search/setIsSearchOpen',
-      setCurrentSearchQuery: 'search/setCurrentSearchQuery',
+      setMovies: `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_PAGES_SEARCH.ACTIONS.SET_MOVIES}`,
+      setIsSearchOpen: `${STORE_CONSTANTS.MODULE_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_SEARCH.ACTIONS.SET_IS_SEARCH_OPEN}`,
+      setCurrentSearchQuery: `${STORE_CONSTANTS.MODULE_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_SEARCH.ACTIONS.SET_CURRENT_SEARCH_QUERY}`,
     }),
     async autocomplete() {
       // Do not do something if searchQuery is empty
@@ -88,8 +89,12 @@ export default {
         return;
       }
 
-      const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery, 1);
-      this.autocompleteMovies = moviesResult.results;
+      try {
+        const moviesResult = await this.$movieDBApi.searchByQuery(this.searchQuery, 1);
+        this.autocompleteMovies = moviesResult.results;
+      } catch (error) {
+        throw new Error(error);
+      }
     },
     handleForm(event) {
       this.autocompleteMovies = [];

@@ -19,12 +19,23 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import * as STORE_CONSTANTS from '~/store/constants';
 
 export default {
   name: 'App',
   transition: 'home',
   async fetch(context) {
-    await context.store.dispatch('pages/home/setMovies', ['harry', 1]);
+    try {
+      await context.store.dispatch(
+        `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_HOME.BASE}/${STORE_CONSTANTS.MODULE_PAGES_HOME.ACTIONS.SET_MOVIES}`,
+        {
+          query: 'iron',
+          page: 1,
+        },
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
   },
   computed: {
     movies() {
@@ -33,7 +44,7 @@ export default {
   },
   methods: {
     ...mapGetters({
-      getHomeMovies: 'pages/home/getMovies',
+      getHomeMovies: `${STORE_CONSTANTS.MODULE_PAGES.BASE}/${STORE_CONSTANTS.MODULE_PAGES_HOME.BASE}/${STORE_CONSTANTS.MODULE_PAGES_HOME.GETTERS.GET_MOVIES}`,
     }),
   },
 };

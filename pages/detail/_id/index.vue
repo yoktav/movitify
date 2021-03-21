@@ -6,7 +6,7 @@
           <Poster
             :poster-src="movie.poster_path"
             :poster-alt="movie.title"
-            :modifier-class="posterModifierClass"
+            :modifier-class="null"
           />
         </div>
 
@@ -28,17 +28,15 @@
 
 <script>
 export default {
-  props: {
-    posterModifierClass: {
-      type: String,
-      default: null,
-    },
-  },
   async asyncData({ params, $movieDBApi }) {
-    const result = await $movieDBApi.searchById(params.id);
-    const movie = result;
+    try {
+      const result = await $movieDBApi.searchById(params.id);
+      const movie = result;
 
-    return { movie };
+      return { movie };
+    } catch (error) {
+      throw new Error(error);
+    }
   },
   head() {
     return {
