@@ -275,7 +275,10 @@ describe('Component Search.vue', () => {
       },
     });
 
+    const closeSearch = jest.spyOn(wrapper.vm, 'closeSearch');
     await wrapper.vm.closeSearch();
+
+    expect(closeSearch).toHaveBeenCalled();
 
     const getIsSearchOpen = await store.getters[
       `${STORE_CONSTANTS.MODULE_SEARCH.BASE}/${STORE_CONSTANTS.MODULE_SEARCH.GETTERS.GET_IS_SEARCH_OPEN}`
