@@ -1,6 +1,7 @@
 export const responseMovies = {
   searchByQuery: () => {
     const result = {
+      query: 'Batman',
       page: 1,
       results: [
         {
