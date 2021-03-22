@@ -39,7 +39,7 @@ describe('Component Search.vue', () => {
     ];
   });
 
-  describe('Check modifier_class working properly', () => {
+  describe('Check modifierClass working properly', () => {
     const modifierClasses = ['u-color-red', 'u-display-flex', 'u-align-items-center'];
 
     modifierClasses.forEach(modifierClass => {
