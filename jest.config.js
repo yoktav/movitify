@@ -24,7 +24,9 @@ module.exports = {
     '<rootDir>/node_modules',
     '<rootDir>/.eslintrc.js',
     '<rootDir>/nuxt.config.js',
+    '<rootDir>/jest.config.js',
+    '<rootDir>/jest-config',
   ],
   collectCoverage: false,
-  collectCoverageFrom: ['**/*.{js,vue}', '!**/node_modules/**'],
+  collectCoverageFrom: ['<rootDir>/**/*.{js,vue}'],
 };
