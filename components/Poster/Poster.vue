@@ -1,5 +1,5 @@
 <template>
-  <div class="c-poster" :class="posterSrc === null ? 'is-undefined' : ''">
+  <div class="c-poster" :class="[posterSrc === null ? 'is-undefined' : '', modifierClass]">
     <img
       v-if="posterSrc !== null && showImage"
       v-lazy-load
