@@ -1,5 +1,5 @@
 <template>
-  <div class="c-movie-card">
+  <div class="c-movie-card" :class="modifierClass">
     <Poster
       :poster-src="posterSrc"
       :poster-alt="posterAlt"
@@ -38,6 +38,10 @@ export default {
     title: {
       type: String,
       default: 'Movie Title',
+    },
+    modifierClass: {
+      type: String,
+      default: null,
     },
   },
 };
