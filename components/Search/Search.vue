@@ -1,14 +1,8 @@
 <template>
-  <div class="c-search js-search" :class="{ 'is-open': isSearchOpen }">
-    <form
-      ref="searchForm"
-      action="/search"
-      class="c-search__form"
-      :class="modifierClass"
-      autocomplete="off"
-    >
+  <div class="c-search js-search" :class="[{ 'is-open': isSearchOpen }, modifierClass]">
+    <form ref="searchForm" action="/search" class="c-search__form" autocomplete="off">
       <button type="submit" class="c-search__submit" @click="openSearch">
-        <Icon :modifier-class="iconModifierClass" icon-name="Search"><IconSearch /></Icon>
+        <Icon :modifier-class="null" icon-name="Search"><IconSearch /></Icon>
       </button>
 
       <input
@@ -47,10 +41,6 @@ import * as STORE_CONSTANTS from '~/store/constants';
 export default {
   props: {
     modifierClass: {
-      type: String,
-      default: null,
-    },
-    iconModifierClass: {
       type: String,
       default: null,
     },
