@@ -4,7 +4,7 @@
     :class="modifierClass"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    :aria-labelledby="iconName"
+    :aria-label="iconName"
     role="presentation"
   >
     <title>{{ iconName }} icon</title>
